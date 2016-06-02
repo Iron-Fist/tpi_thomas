@@ -1,0 +1,63 @@
+/*nav.col-sm-12{
+    line-height: 50px;
+    background-color: #0AD100;
+}
+
+nav img{
+    height: 60px;
+    width: 100px;
+    float: left;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a {
+    text-decoration: none;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 1px 15px;
+    text-decoration: none;
+}
+
+nav li :hover {
+    background-color: #008500;
+    color: #67E667;
+    text-decoration: none;
+}
+
+nav #statut {
+    float: right;
+    padding: 1px 15px;
+}
+*/
+
+#navigation{
+    box-shadow: 2px 2px 1px #888888;
+}
+
+section.col-sm-12{
+    height: 500px;
+    background-color: white;
+}
+
+body {
+    padding-top: 10px;
+    background-color: #EDEDED;
+}
+
+[class*="col-"], footer {
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 2px 2px 1px #888888;
+}
