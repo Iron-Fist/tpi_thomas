@@ -34,13 +34,13 @@ require './librairie/librairie_membres.php';
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active">
+                            <li>
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
                             </li>
                             <li>
                                 <a href="a_propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <?php
                                 if (isset($_SESSION['membre_connecte']))
                                     echo '<a href="mon_compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';

@@ -35,13 +35,32 @@ require './librairie/librairie_membres.php';
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="index.php">Accueil</a>
-                            </li>
-                            <li class="active">
-                                <a href="administration.php">Administration</a>
+                                <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
                             </li>
                             <li>
-                                <a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span></a>
+                                <a href="a_propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
+                            </li>
+                            <li>
+                                <?php
+                                if (isset($_SESSION['membre_connecte']))
+                                    echo '<a href="mon_compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
+                                ?>
+                            </li>
+                            <li class="active">
+                                <?php
+                                if (isset($_SESSION['membre_connecte'])) {
+                                    if ($_SESSION['membre_connecte']['est_admin'])
+                                        echo '<a href="administration.php">Administration <span class="glyphicon glyphicon-wrench"></span></a>';
+                                }
+                                ?>
+                            </li>
+                            <li>
+                                <?php
+                                if (isset($_SESSION['membre_connecte']))
+                                    echo '<a href="deconnexion.php">Deconnexion <span class="glyphicon glyphicon-log-out"></span></a>';
+                                else
+                                    echo '<a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in"></span></a>';
+                                ?>
                             </li>
                         </ul>
                     </div>
@@ -54,7 +73,7 @@ require './librairie/librairie_membres.php';
             </div>
             <div class="row">
                 <footer class="col-sm-12">
-                    &copy Thomas Carreira
+                    &copy; Thomas Carreira
                 </footer>
             </div>
         </div>

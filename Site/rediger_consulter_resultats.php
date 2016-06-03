@@ -34,7 +34,7 @@ require './librairie/librairie_membres.php';
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active">
+                            <li>
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
                             </li>
                             <li>
