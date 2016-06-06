@@ -76,7 +76,7 @@ if (isset($_REQUEST['administration_concours'])) {
 
                         <table class="table table-bordered table-striped table-condensed">
                             <caption>
-                                Liste des utilisateurs non validé :
+                                Liste des futurs concours :
                             </caption>
                             <thead>
                                 <tr>

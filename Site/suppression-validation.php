@@ -14,6 +14,10 @@ if(isset($_REQUEST['id_membre_suppression'])){
     header('Location: administration-membres.php');
 }
 
+if(isset($_REQUEST['id_concours_suppression'])){
+    supprimer_concours($_REQUEST['id_concours_suppression']);
+    header('Location: administration.php');
+}
 ?>
 <!DOCTYPE html>
 <html>

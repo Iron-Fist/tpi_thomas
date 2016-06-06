@@ -132,7 +132,6 @@ if (isset($_REQUEST['connexion'])) {
                         <div class="input-group">
                             <input type="password" class="form-control" id="mdp" name="mdp">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                            
                         </div>
                         <br>
                         <input type="submit" class="btn btn-default" name="connexion" value="Connexion">

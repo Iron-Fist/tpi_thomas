@@ -4,9 +4,7 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-$erreur = false;
 $message_erreur = "";
-
 
 if (isset($_REQUEST['id_membre_modification'])) {
     $_SESSION['membre'] = ancien_membre_temporaire($_REQUEST['id_membre_modification']);
@@ -28,10 +26,13 @@ if (isset($_REQUEST['valider'])) {
 
     if ($membre['id_membre'] != -1) {
         $message_erreur = modification_membre_valide($membre, $mdp, $mdp_verif);
-        
     } else {
         $message_erreur = creation_membre_valide($membre, $mdp, $mdp_verif);
     }
+}
+
+if(isset($_REQUEST['annuler'])){
+    header('Location: connexion.php');
 }
 ?>
 <!DOCTYPE html>
@@ -96,55 +97,54 @@ if (isset($_REQUEST['valider'])) {
             <div class="row">
                 <section class="col-sm-12 table-responsive">
                     <form action="#" method="post">
-                        <legend>Création d'un <?php echo $juste = (isset($_REQUEST['id-membre-modification'])) ? " concours : " : " compte membre : "; ?></legend>
+                        <legend><?php echo $juste = (isset($_REQUEST['id_membre_modification'])) ? "Modification" : "Création"; ?>  d'un compte membre : </legend>
 
                         <?php
                         if ($message_erreur != "") {
                             echo '<div class="alert alert-danger" role="alert">
-                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         <span class="sr-only">Error:</span>' . $message_erreur . '</div>';
                         }
                         ?>
 
-                        <div class="form-group-sm">
-                            <p>
-                                <label for="num_licence">Numéro de licence : </label>
-                                <input type="number" class="form-control" id="num_licence" name="num_licence" value="<?php echo $membre['num_licence'] ?>" placeholder="Format : 5 chiffres">
-                            </p>
-                        </div>
-                        <div class="form-group-sm">
-                            <p>
-                                <label for="nom">Nom : </label>
-                                <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $membre['nom'] ?>">
-                            </p>
-                        </div>
-                        <div class="form-group-sm">
-                            <p>
-                                <label for="prenom">Prénom : </label>
-                                <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $membre['prenom'] ?>">
-                            </p>
-                        </div>
-                        <div class="form-group-sm">
-                            <p>
-                                <label for="date_naissance">Date de naissance : </label>
-                                <input type="date" class="form-control" id="date_concours" name="date_naissance" value="<?php echo $membre['date_naissance'] ?>">
-                            </p>
-                        </div>
-                        <div class="form-group-sm">
-                            <p>
-                                <label for="mdp">Mot de passe : </label>
-                                <input type="password" class="form-control" id="mdp" name="mdp">
-                            </p>
-                        </div>
-                        <div class="form-group-sm">
-                            <p>
-                                <label for="mdp_verif">Vérification du mot de passe : </label>
-                                <input type="password" class="form-control" id="mdp_verif" name="mdp_verif">
-                            </p>
+                        <label for="num_licence">Numéro de licence : </label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="num_licence" name="num_licence" value="<?php echo $membre['num_licence'] ?>" placeholder="Format : 5 chiffres">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
                         </div>
 
+                        <label for="nom">Nom : </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $membre['nom'] ?>">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        </div>
 
-                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo $juste = (isset($_REQUEST['id-membre-modification'])) ? "Modifier" : "Créer"; ?>">
+                        <label for="prenom">Prénom : </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $membre['prenom'] ?>">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        </div>
+
+                        <label for="date_naissance">Date de naissance : </label>
+                        <div class="input-group">
+                            <input type="date" class="form-control" id="date_concours" name="date_naissance" value="<?php echo $membre['date_naissance'] ?>">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+
+                        <label for="mdp">Mot de passe : </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="mdp" name="mdp">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        </div>
+                        
+                        <label for="mdp_verif">Vérification du mot de passe : </label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="mdp_verif" name="mdp_verif">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        </div>
+
+                        <br>
+                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo $juste = (isset($_REQUEST['id_membre_modification'])) ? "Modifier" : "Créer"; ?>">
                         <input type="submit" class="btn btn-default" name="annuler" value="Annuler">
 
                     </form>
@@ -152,7 +152,7 @@ if (isset($_REQUEST['valider'])) {
             </div>
             <div class="row">
                 <footer class="col-sm-12">
-                    Pied de page
+                    &copy; Thomas Carreira
                 </footer>
             </div>
         </div>

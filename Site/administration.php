@@ -7,6 +7,12 @@ require './librairie/librairie_membres.php';
 if (isset($_REQUEST['administration_membres'])) {
     header('Location: administration-membres.php');
 }
+
+if (isset($_REQUEST['creer_concours'])) {
+    header('Location: creer-modifier-concours.php');
+}
+
+$date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,8 +77,36 @@ if (isset($_REQUEST['administration_membres'])) {
                 <section class="col-sm-12 table-responsive">
                     <form action="#" method="post">
                         <legend>Administration des concours</legend>
-
                         <input type="submit" class="btn btn-default" name="administration_membres" value="Administration membres">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <caption>
+                                Liste des futurs concours :
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Intitule
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Nombre de places
+                                    </th>
+                                    <th>
+                                        Date du concours
+                                    </th>
+                                    <th>
+                                        Modification
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php tableau_futur_concours($date_jour); ?>
+                            </tbody>
+                        </table>
+
+                        <input type="submit" class="btn btn-default" name="creer_concours" value="Créer un Concours">
                     </form>
                 </section>
             </div>
