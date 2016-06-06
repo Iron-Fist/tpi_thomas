@@ -4,8 +4,9 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-
-
+if (isset($_REQUEST['administration_membres'])) {
+    header('Location: administration-membres.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,12 +39,12 @@ require './librairie/librairie_membres.php';
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
                             </li>
                             <li>
-                                <a href="a_propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
+                                <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
                             </li>
                             <li>
                                 <?php
                                 if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="mon_compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
+                                    echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
                                 ?>
                             </li>
                             <li class="active">
@@ -68,7 +69,11 @@ require './librairie/librairie_membres.php';
             </div>
             <div class="row">
                 <section class="col-sm-12 table-responsive">
+                    <form action="#" method="post">
+                        <legend>Administration des concours</legend>
 
+                        <input type="submit" class="btn btn-default" name="administration_membres" value="Administration membres">
+                    </form>
                 </section>
             </div>
             <div class="row">

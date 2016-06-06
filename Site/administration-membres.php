@@ -3,6 +3,10 @@ session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
+
+if (isset($_REQUEST['administration_concours'])) {
+    header('Location: administration.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,16 +38,16 @@ require './librairie/librairie_membres.php';
                             <li>
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
                             </li>
-                            <li class="active">
-                                <a href="a_propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
+                            <li>
+                                <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
                             </li>
                             <li>
                                 <?php
                                 if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="mon_compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
+                                    echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
                                 ?>
                             </li>
-                            <li>
+                            <li class="active">
                                 <?php
                                 if (isset($_SESSION['membre_connecte'])) {
                                     if ($_SESSION['membre_connecte']['est_admin'])
@@ -65,47 +69,68 @@ require './librairie/librairie_membres.php';
             </div>
             <div class="row">
                 <section class="col-sm-12 table-responsive">
-                    <legend>A propos du club :</legend>
-                    Créé en 1999 à JUSSY/Genève (CH).<br>
-                    Compte plus de 135 membres actifs et passifs.<br>
-                    Ouvert aux archers confirmés et aux débutants.<br>
-                    Initiation pour adultes et enfants dès 8 ans.<br>
-                    Matériel d'initiation à disposition.<br>
-                    Encadrement par des entraineurs diplômés Jeunesse+Sport et des moniteurs confirmés.<br>
-                    Entraînement à la compétition.<br>
-                    Participation à des compétitions nationales et internationales.<br>
-                    Nombreux titres nationaux.<br>
-                    Organisateur de concours nationaux et internationaux.<br>
-                    Terrain et salle de tir à Jussy.<br>
-                    Membre ADAGE (Association Des Archers Genevois)<br>
-                    Membre SwissArchery (Swiss Archery Association)
-                    
-                    <legend>Lieu :</legend>
-                    23, route de Juvigny 1254 Jussy
-                    
-                    <legend>Contact :</legend>
-                    <table class="table table-bordered table-striped table-condensed">
-                        <tr>
-                            <th>Nom / prénom</th>
-                            <th>E-mail</th>
-                            <th>Fonction</th>
-                        </tr>
-                        <tr>
-                            <td>DE GIULI Jean-Noël</td>
-                            <td>president@arc-club-jussy.ch</td>
-                            <td>Président</td>
-                        </tr>
-                        <tr>
-                            <td>BOVISI Marco</td>
-                            <td>entraineur@arc-club-jussy.ch</td>
-                            <td>Directeur sportif</td>
-                        </tr>
-                        <tr>
-                            <td>RUIZ Olivier</td>
-                            <td>logistique@arc-club-jussy.ch</td>
-                            <td>Directeur logistique</td>
-                        </tr>
-                    </table>
+                    <form action="#" method="post">
+                        <legend>Administration des membres</legend>
+
+                        <input type="submit" class="btn btn-default" name="administration_concours" value="Administration concours">
+
+                        <table class="table table-bordered table-striped table-condensed">
+                            <caption>
+                                Liste des utilisateurs non validé :
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Numéro de licence
+                                    </th>
+                                    <th>
+                                        Nom
+                                    </th>
+                                    <th>
+                                        Prénom
+                                    </th>
+                                    <th>
+                                        Date de naissance
+                                    </th>
+                                    <th>
+                                        Validation
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php tableau_membre_non_valide() ?>
+                            </tbody>
+                        </table>
+
+                        <table class="table table-bordered table-striped table-condensed">
+                            <caption>
+                                Liste des utilisateurs validé :
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Numéro de licence
+                                    </th>
+                                    <th>
+                                        Nom
+                                    </th>
+                                    <th>
+                                        Prénom
+                                    </th>
+                                    <th>
+                                        Date de naissance
+                                    </th>
+                                    <th>
+                                        Modification
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php tableau_membre_valide() ?>
+                            </tbody>
+                        </table>
+
+                    </form>
                 </section>
             </div>
             <div class="row">

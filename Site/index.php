@@ -38,12 +38,12 @@ require './librairie/librairie_membres.php';
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
                             </li>
                             <li>
-                                <a href="a_propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
+                                <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
                             </li>
                             <li>
                                 <?php
                                 if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="mon_compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
+                                    echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
                                 ?>
                             </li>
                             <li>
