@@ -18,6 +18,16 @@ if(isset($_REQUEST['id_concours_suppression'])){
     supprimer_concours($_REQUEST['id_concours_suppression']);
     header('Location: administration.php');
 }
+
+if(isset($_REQUEST['id_concours_inscription'])){
+    inscription_concours($_REQUEST['id_concours_inscription'], $_SESSION['membre_connecte']['id_membre']);
+    header('Location: mon-compte.php');
+}
+
+if(isset($_REQUEST['id_concours_desinscription'])){
+    desinscription_concours($_REQUEST['id_concours_desinscription'], $_SESSION['membre_connecte']['id_membre']);
+    header('Location: mon-compte.php');
+}
 ?>
 <!DOCTYPE html>
 <html>

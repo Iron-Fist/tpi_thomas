@@ -124,7 +124,7 @@ function tableau_membre_non_valide() {
             echo '<td>' . $data['nom'] . '</td>';
             echo '<td>' . $data['prenom'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_naissance']), "l d F") . '</td>';
-            echo '<td><a href="suppression-validation.php?id_membre_valide=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-ok"></span></a></td>';
+            echo '<td><a href="suppression-validation-inscription.php?id_membre_valide=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-ok"></span></a></td>';
             echo '</tr>';
         }
     }
@@ -144,7 +144,7 @@ function tableau_membre_valide() {
         echo '<td>' . $data['nom'] . '</td>';
         echo '<td>' . $data['prenom'] . '</td>';
         echo '<td>' . date_format(date_create($data['date_naissance']), "l d F") . '</td>';
-        echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>' . " " . '<a href="suppression-validation.php?id_membre_suppression=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>' . " " . '<a href="suppression-validation-inscription.php?id_membre_suppression=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
         echo '</tr>';
     }
 }

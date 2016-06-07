@@ -4,8 +4,8 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-
-
+$est_connecte = false;
+$date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,7 +68,8 @@ require './librairie/librairie_membres.php';
             </div>
             <div class="row">
                 <section class="col-sm-12 table-responsive">
-
+                    <legend>Remise des résultats : </legend>
+                    
                 </section>
             </div>
             <div class="row">

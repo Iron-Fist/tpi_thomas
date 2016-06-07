@@ -77,7 +77,9 @@ $date_jour = date('Y-m-d');
                 <section class="col-sm-12 table-responsive">
                     <form action="#" method="post">
                         <legend>Administration des concours</legend>
+                        
                         <input type="submit" class="btn btn-default" name="administration_membres" value="Administration membres">
+                        
                         <table class="table table-bordered table-striped table-condensed">
                             <caption>
                                 Liste des futurs concours :
@@ -106,6 +108,31 @@ $date_jour = date('Y-m-d');
                             </tbody>
                         </table>
 
+                        <table class="table table-bordered table-striped table-condensed">
+                            <caption>
+                                Liste des concours en attente de résultats :
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Intitule
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Date du concours
+                                    </th>
+                                    <th>
+                                        Résultats
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php tableau_concours_attente_resultats($date_jour); ?>
+                            </tbody>
+                        </table>
+                        
                         <input type="submit" class="btn btn-default" name="creer_concours" value="Créer un Concours">
                     </form>
                 </section>

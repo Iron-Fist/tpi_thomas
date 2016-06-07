@@ -27,7 +27,7 @@ if (isset($_REQUEST['connexion'])) {
             if ($_SESSION['membre_connecte']['est_admin']) {
                 header('Location: administration.php');
             } else {
-                header('Location: index.php');
+                header('Location: mon-compte.php');
             }
         } else {
             session_destroy();

@@ -4,8 +4,8 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-
-
+$est_connecte = false;
+$date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,7 +68,43 @@ require './librairie/librairie_membres.php';
             </div>
             <div class="row">
                 <section class="col-sm-12 table-responsive">
-
+                    <legend>Présentation : </legend>
+                    <p>
+                        Bienvenue sur le site officiel de l'arc club Jussy.<br>
+                        Ce site va vous permettre de vous tenir facilement au courant sur les prochains concours à venir<br>
+                        et vous pourrez également vous y inscrire.
+                    </p>
+                    
+                    <legend>Liste des futurs concours :</legend>
+                    <table class="table table-bordered table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Intitule
+                                </th>
+                                <th>
+                                    Lieu
+                                </th>
+                                <th>
+                                    Nombre de places
+                                </th>
+                                <th>
+                                    Date du concours
+                                </th>
+                                <th>
+                                    Date limite des inscriptions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (isset($_SESSION['membre_connecte'])) {
+                                $est_connecte = true;
+                            }
+                            tableau_futur_concours_inscription($date_jour, $est_connecte);
+                            ?>
+                        </tbody>
+                    </table>
                 </section>
             </div>
             <div class="row">
