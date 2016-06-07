@@ -6,6 +6,17 @@ require './librairie/librairie_membres.php';
 
 $est_connecte = false;
 $date_jour = date('Y-m-d');
+
+if (isset($_REQUEST["remise"])) {
+
+    foreach ($_REQUEST as $key => $value) {
+
+        if (preg_match("#(\d+)_(score)#", $key, $matches)) {
+            $id = $matches[1];
+            mise_a_jour_score($id, $value, $_REQUEST['id_concours_remise_resultats']);
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,8 +79,31 @@ $date_jour = date('Y-m-d');
             </div>
             <div class="row">
                 <section class="col-sm-12 table-responsive">
-                    <legend>Remise des résultats : </legend>
-                    
+                    <form action="#" method="post">
+                        <legend>Remise des résultats : </legend>
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Numéro de licence
+                                    </th>
+                                    <th>
+                                        Nom
+                                    </th>
+                                    <th>
+                                        Prénom
+                                    </th>
+                                    <th>
+                                        Score
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php liste_participant($_REQUEST['id_concours_remise_resultats']) ?>
+                            </tbody>
+                        </table>
+                        <input type="submit" class="btn btn-default" name="remise" value="Rendre les résultats">
+                    </form>
                 </section>
             </div>
             <div class="row">

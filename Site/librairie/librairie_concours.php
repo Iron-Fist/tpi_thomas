@@ -274,7 +274,7 @@ function tableau_concours_attente_resultats($date_jour) {
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
-            echo '<td><a href="rediger-consulter-resultats.php?id_concours_modification=' . $data["id_concours"] . '">Remettre</a></td>';
+            echo '<td><a href="rediger-consulter-resultats.php?id_concours_remise_resultats=' . $data["id_concours"] . '">Remettre</a></td>';
             echo '</tr>';
         }
     }
@@ -297,7 +297,7 @@ function tableau_futur_concours_inscription($date_jour, $id_membre) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' .  ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
+            echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "l d F") . '</td>';
             if ($id_membre != -1) {
@@ -341,4 +341,35 @@ function tableau_futur_concours_inscrits($id_membre, $date_jour) {
             echo '</tr>';
         }
     }
+}
+
+function liste_participant($id_concours) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT i.id_membre, num_licence, nom, prenom FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ?");
+    }
+
+    $query->execute([$id_concours]);
+
+    while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+        echo '<tr>';
+        echo '<td>' . $data['num_licence'] . '</td>';
+        echo '<td>' . $data['nom'] . '</td>';
+        echo '<td>' . $data['prenom'] . '</td>';
+        echo '<td><input type="number" name="' . $data['id_membre'] . '_score" min="0" max="600"></td>';
+        echo '</tr>';
+    }
+}
+
+function mise_a_jour_score($id_membre, $score, $id_concours) {
+    $query = connectDB()->prepare("UPDATE t_inscrits SET score=:score WHERE id_membre=:id_membre AND id_concours=:id_concours");
+
+    $data = array(
+        "score" => $score,
+        "id_membre" => $id_membre,
+        "id_concours" => $id_concours
+    );
+
+    $query->execute($data);
 }

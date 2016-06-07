@@ -41,7 +41,7 @@ if(isset($_REQUEST['annuler'])){
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Création de concours</title>
+        <title><?php echo isset($_REQUEST['id_concours_modification']) ? "Modification" : "Création"; ?> d'un concours</title>
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/css/tuto.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
@@ -97,7 +97,7 @@ if(isset($_REQUEST['annuler'])){
             <div class="row">
                 <section class="col-sm-12 table-responsive">
                     <form action="#" method="post">
-                        <legend><?php echo $juste = (isset($_REQUEST['id_concours_modification'])) ? "Modification" : "Création"; ?> d'un concours : </legend>
+                        <legend><?php echo isset($_REQUEST['id_concours_modification']) ? "Modification" : "Création"; ?> d'un concours : </legend>
 
                         <?php
                         if ($message_erreur != "") {
@@ -133,7 +133,7 @@ if(isset($_REQUEST['annuler'])){
                             </p>
                         </div>
 
-                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo $juste = (isset($_REQUEST['id_concours_modification'])) ? "Modifier" : "Créer"; ?>">
+                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo isset($_REQUEST['id_concours_modification']) ? "Modifier" : "Créer"; ?>">
                         <input type="submit" class="btn btn-default" name="annuler" value="Annuler">
 
                     </form>
