@@ -26,7 +26,7 @@ if(isset($_REQUEST['id_concours_inscription'])){
 
 if(isset($_REQUEST['id_concours_desinscription'])){
     desinscription_concours($_REQUEST['id_concours_desinscription'], $_SESSION['membre_connecte']['id_membre']);
-    header('Location: mon-compte.php');
+    header('Location: index.php');
 }
 ?>
 <!DOCTYPE html>

@@ -4,7 +4,6 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-$est_connecte = false;
 $date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
@@ -74,7 +73,7 @@ $date_jour = date('Y-m-d');
                         Ce site va vous permettre de vous tenir facilement au courant sur les prochains concours à venir<br>
                         et vous pourrez également vous y inscrire.
                     </p>
-                    
+
                     <legend>Liste des futurs concours :</legend>
                     <table class="table table-bordered table-striped table-condensed">
                         <thead>
@@ -98,10 +97,7 @@ $date_jour = date('Y-m-d');
                         </thead>
                         <tbody>
                             <?php
-                            if (isset($_SESSION['membre_connecte'])) {
-                                $est_connecte = true;
-                            }
-                            tableau_futur_concours_inscription($date_jour, $est_connecte);
+                            tableau_futur_concours_inscription($date_jour, isset($_SESSION['membre_connecte']) ? $_SESSION['membre_connecte']["id_membre"] : -1);
                             ?>
                         </tbody>
                     </table>

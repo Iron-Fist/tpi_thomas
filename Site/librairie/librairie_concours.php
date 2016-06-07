@@ -151,6 +151,31 @@ function date_concours_valide($date_concours, $date_limite_inscription) {
     return false;
 }
 
+function est_inscrit($id_concours, $id_membre) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT * FROM `t_inscrits` WHERE id_concours = ? AND id_membre = ?");
+    }
+    $query->execute([$id_concours, $id_membre]);
+
+    if ($query->rowCount() > 0)
+        return true;
+    else
+        return false;
+}
+
+function nb_inscrits($id_concours) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT COUNT(id_membre) AS nb_inscrits FROM `t_inscrits` WHERE id_concours = ?");
+    }
+    $query->execute([$id_concours]);
+
+    return $query->fetch(PDO::FETCH_ASSOC)['nb_inscrits'];
+}
+
 function creation_concours_valide($concours, $date_limite_inscription) {
     $message_erreur = "";
 
@@ -222,17 +247,13 @@ function tableau_futur_concours($date_jour) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . $data['nb_places'] . '</td>';
+            echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
             echo '<td><a href="creer-modifier-concours.php?id_concours_modification=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-wrench"></span></a>'
             . " " . '<a href="suppression-validation-inscription.php?id_concours_suppression=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
             echo '</tr>';
         }
     }
-}
-
-function tableau_concours_avec_resultats() {
-    
 }
 
 function tableau_concours_attente_resultats($date_jour) {
@@ -259,7 +280,7 @@ function tableau_concours_attente_resultats($date_jour) {
     }
 }
 
-function tableau_futur_concours_inscription($date_jour, $est_connecte) {
+function tableau_futur_concours_inscription($date_jour, $id_membre) {
     static $query = null;
 
     if ($query == null) {
@@ -276,12 +297,16 @@ function tableau_futur_concours_inscription($date_jour, $est_connecte) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . $data['nb_places'] . '</td>';
+            echo '<td>' .  ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "l d F") . '</td>';
-            if ($est_connecte) {
+            if ($id_membre != -1) {
                 if ($data['date_limite_inscription'] >= $date_jour) {
-                    echo '<td><a href="suppression-validation-inscription.php?id_concours_inscription=' . $data["id_concours"] . '">Inscription</a></td>';
+                    if (est_inscrit($data['id_concours'], $id_membre)) {
+                        echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
+                    } else {
+                        echo '<td><a href="suppression-validation-inscription.php?id_concours_inscription=' . $data["id_concours"] . '">Inscription</a></td>';
+                    }
                 } else {
                     echo '<td>Inscription fermée</td>';
                 }
@@ -310,7 +335,7 @@ function tableau_futur_concours_inscrits($id_membre, $date_jour) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . $data['nb_places'] . '</td>';
+            echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
             echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
             echo '</tr>';
