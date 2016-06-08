@@ -4,6 +4,10 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
+if(!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connecte']['est_admin'] == 0){
+    header('Location: mon-compte.php');
+}
+
 if (isset($_REQUEST['administration_concours'])) {
     header('Location: administration.php');
 }

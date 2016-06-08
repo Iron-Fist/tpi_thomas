@@ -4,6 +4,10 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
+if(!isset($_SESSION['membre_connecte'])){
+    header('Location: connexion.php');
+}
+
 $date_jour = date('Y-m-d');
 
 ?>

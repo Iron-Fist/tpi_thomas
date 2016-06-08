@@ -7,6 +7,9 @@ require './librairie/librairie_membres.php';
 $est_connecte = false;
 $date_jour = date('Y-m-d');
 
+if(!isset($_REQUEST['id_concours_resultats'])){
+    header('Location: administration.php');
+}
 
 if (isset($_REQUEST['remise'])) {
     foreach ($_REQUEST as $key => $value) {

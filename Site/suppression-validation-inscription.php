@@ -28,6 +28,8 @@ if(isset($_REQUEST['id_concours_desinscription'])){
     desinscription_concours($_REQUEST['id_concours_desinscription'], $_SESSION['membre_connecte']['id_membre']);
     header('Location: index.php');
 }
+
+header('Location: administration.php')
 ?>
 <!DOCTYPE html>
 <html>

@@ -6,6 +6,10 @@ require './librairie/librairie_membres.php';
 
 $message_erreur = "";
 
+if(!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connecte']['est_admin'] == 0){
+    header('Location: mon-compte.php');
+}
+
 if (isset($_REQUEST['id_concours_modification'])) {
     $_SESSION['concours'] = ancien_concours_temporaire($_REQUEST['id_concours_modification']);
 } else if (!isset($_SESSION['concours'])) {
