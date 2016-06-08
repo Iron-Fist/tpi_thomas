@@ -80,7 +80,7 @@ function modifier_membre_sans_mdp($id_membre, $num_licence, $nom, $prenom, $date
     $query->execute($data);
 }
 
-function nouveau_membre_temporaire() {
+function charger_nouveau_membre() {
     return array(
         "id_membre" => -1,
         "num_licence" => "",
@@ -91,7 +91,7 @@ function nouveau_membre_temporaire() {
     );
 }
 
-function ancien_membre_temporaire($id_membre) {
+function charger_donnees_membre($id_membre) {
     $query = connectDB()->prepare("SELECT * FROM `t_membres` WHERE id_membre = ?");
     $query->execute([$id_membre]);
     $data = $query->fetch(PDO::FETCH_ASSOC);
@@ -144,9 +144,29 @@ function tableau_membre_valide() {
         echo '<td>' . $data['nom'] . '</td>';
         echo '<td>' . $data['prenom'] . '</td>';
         echo '<td>' . date_format(date_create($data['date_naissance']), "l d F") . '</td>';
-        echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>' . " " . '<a href="suppression-validation-inscription.php?id_membre_suppression=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
+        echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>';
+        if(est_inscrit_concours($data['id_membre']))
+            echo '</td>';
+        else
+        echo " " . '<a href="suppression-validation-inscription.php?id_membre_suppression=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
         echo '</tr>';
     }
+}
+
+function est_inscrit_concours($id_membre) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT * FROM `t_inscrits` WHERE id_membre = ?");
+    }
+    $query->execute([$id_membre]);
+
+    $data = $query->fetch(PDO::FETCH_ASSOC);
+
+    if ($data === false)
+        return false;
+    else
+        return true;
 }
 
 function validation_membre($id_membre) {

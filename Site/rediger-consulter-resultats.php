@@ -7,7 +7,7 @@ require './librairie/librairie_membres.php';
 $est_connecte = false;
 $date_jour = date('Y-m-d');
 
-if(!isset($_REQUEST['id_concours_resultats'])){
+if (!isset($_REQUEST['id_concours_resultats']) && !isset($_REQUEST['id_concours_consulte'])) {
     header('Location: administration.php');
 }
 
@@ -24,7 +24,10 @@ if (isset($_REQUEST['remise'])) {
 }
 
 if (isset($_REQUEST['annuler'])) {
-    header('Location: administration.php');
+    if (isset($_REQUEST['id_concours_consulte']))
+        header('Location: mon-compte.php');
+    else
+        header('Location: administration.php');
 }
 ?>
 <!DOCTYPE html>

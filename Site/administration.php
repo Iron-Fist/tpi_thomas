@@ -164,6 +164,7 @@ $date_jour = date('Y-m-d');
                         
                         <input type="submit" class="btn btn-default" name="creer_concours" value="Créer un Concours">
                     </form>
+                <br>
                 </section>
             </div>
             <div class="row">

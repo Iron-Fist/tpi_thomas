@@ -6,12 +6,11 @@ require './librairie/librairie_membres.php';
 
 $message_erreur = "";
 
-if (isset($_REQUEST['id_membre_modification'])) {
-    $_SESSION['membre'] = ancien_membre_temporaire($_REQUEST['id_membre_modification']);
-} else if (!isset($_SESSION['membre'])) {
-    $_SESSION['membre'] = nouveau_membre_temporaire();
-}
-$membre = $_SESSION['membre'];
+if (isset($_REQUEST['id_membre_modification']))
+    $membre = charger_donnees_membre($_REQUEST['id_membre_modification']);
+else
+    $membre = charger_nouveau_membre();
+
 
 
 if (isset($_REQUEST['valider'])) {
@@ -31,7 +30,7 @@ if (isset($_REQUEST['valider'])) {
     }
 }
 
-if(isset($_REQUEST['annuler'])){
+if (isset($_REQUEST['annuler'])) {
     header('Location: connexion.php');
 }
 ?>
@@ -58,7 +57,7 @@ if(isset($_REQUEST['annuler'])){
                         <span class="icon-bar"></span>
                     </button>
                     <div class="navbar-header">
-                        <a class="navbar-brand">Titre</a>
+                        <a class="navbar-brand">Arc club Jussy</a>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
@@ -136,7 +135,7 @@ if(isset($_REQUEST['annuler'])){
                             <input type="password" class="form-control" id="mdp" name="mdp">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                         </div>
-                        
+
                         <label for="mdp_verif">Vérification du mot de passe : </label>
                         <div class="input-group">
                             <input type="password" class="form-control" id="mdp_verif" name="mdp_verif">

@@ -88,7 +88,7 @@ function desinscription_concours($id_concours, $id_membre) {
  * Création d'un tableau qui nous servira pour créer un concours
  * @return array
  */
-function nouveau_concours_temporaire() {
+function charger_nouveau_concours() {
     return array(
         "id_concours" => -1,
         "intitule" => "",
@@ -104,7 +104,7 @@ function nouveau_concours_temporaire() {
  * @param int $id_concours
  * @return array $data
  */
-function ancien_concours_temporaire($id_concours) {
+function charger_donnees_concours($id_concours) {
     $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE id_concours = ?");
     $query->execute([$id_concours]);
     $data = $query->fetch(PDO::FETCH_ASSOC);

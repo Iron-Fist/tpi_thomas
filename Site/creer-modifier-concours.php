@@ -10,12 +10,11 @@ if(!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connec
     header('Location: mon-compte.php');
 }
 
-if (isset($_REQUEST['id_concours_modification'])) {
-    $_SESSION['concours'] = ancien_concours_temporaire($_REQUEST['id_concours_modification']);
-} else if (!isset($_SESSION['concours'])) {
-    $_SESSION['concours'] = nouveau_concours_temporaire();
-}
-$concours = $_SESSION['concours'];
+if (isset($_REQUEST['id_concours_modification'])) 
+    $concours = charger_donnees_concours($_REQUEST['id_concours_modification']);
+ else
+    $concours = charger_nouveau_concours();
+
 
 
 if (isset($_REQUEST['valider'])) {
