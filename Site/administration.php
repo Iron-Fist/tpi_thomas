@@ -129,7 +129,32 @@ $date_jour = date('Y-m-d');
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php tableau_concours_attente_resultats($date_jour); ?>
+                                <?php tableau_remise_resultats_concours($date_jour); ?>
+                            </tbody>
+                        </table>
+                        
+                        <table class="table table-bordered table-striped table-condensed">
+                            <caption>
+                                Liste des concours avec résultats :
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Intitule
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Date du concours
+                                    </th>
+                                    <th>
+                                        Résultats
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php tableau_modifier_resultats_concours($date_jour); ?>
                             </tbody>
                         </table>
                         

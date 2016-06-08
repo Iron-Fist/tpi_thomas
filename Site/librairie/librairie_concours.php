@@ -256,30 +256,6 @@ function tableau_futur_concours($date_jour) {
     }
 }
 
-function tableau_concours_attente_resultats($date_jour) {
-    static $query = null;
-
-    if ($query == null) {
-        $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` < ?");
-    }
-    $query->execute([$date_jour]);
-
-    if ($query->rowCount() == 0) {
-        echo '<tr>';
-        echo '<td colspan="5" class="text-center">Il n\'y a aucun concours en attente de résultat.</td>';
-        echo '</tr>';
-    } else {
-        while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
-            echo '<tr>';
-            echo '<td>' . $data['intitule'] . '</td>';
-            echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
-            echo '<td><a href="rediger-consulter-resultats.php?id_concours_remise_resultats=' . $data["id_concours"] . '">Remettre</a></td>';
-            echo '</tr>';
-        }
-    }
-}
-
 function tableau_futur_concours_inscription($date_jour, $id_membre) {
     static $query = null;
 
@@ -304,8 +280,11 @@ function tableau_futur_concours_inscription($date_jour, $id_membre) {
                 if ($data['date_limite_inscription'] >= $date_jour) {
                     if (est_inscrit($data['id_concours'], $id_membre)) {
                         echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
-                    } else {
+                    } else if(($data['nb_places'] - nb_inscrits($data['id_concours'])) > 0) {
                         echo '<td><a href="suppression-validation-inscription.php?id_concours_inscription=' . $data["id_concours"] . '">Inscription</a></td>';
+                    }
+                    else{
+                        echo '<td>Plus de places</td>';
                     }
                 } else {
                     echo '<td>Inscription fermée</td>';
@@ -343,11 +322,88 @@ function tableau_futur_concours_inscrits($id_membre, $date_jour) {
     }
 }
 
+function tableau_concours_passe_inscrits($id_membre, $date_jour) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT c.id_concours, c.intitule, c.lieu, c.nb_places, c.date_concours, c.date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours <= ?");
+    }
+
+    $query->execute([$id_membre, $date_jour]);
+
+    if ($query->rowCount() == 0) {
+        echo '<tr>';
+        echo '<td colspan="6" class="text-center">Vous n\'avez participez à aucun concours.</td>';
+        echo '</tr>';
+    } else {
+        while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+
+            echo '<tr>';
+            echo '<td>' . $data['intitule'] . '</td>';
+            echo '<td>' . $data['lieu'] . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            if (resultat_remis($data['id_concours']))
+                echo '<td><a href="rediger-consulter-resultats.php?id_concours_consulte=' . $data["id_concours"] . '">Consulter</a></td>';
+            else
+                echo '<td>Pas encore remis</td>';
+            echo '</tr>';
+        }
+    }
+}
+
+function tableau_remise_resultats_concours($date_jour) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score = -1");
+    }
+    $query->execute([$date_jour]);
+
+    if ($query->rowCount() == 0) {
+        echo '<tr>';
+        echo '<td colspan="5" class="text-center">Il n\'y a aucun concours en attente de résultat.</td>';
+        echo '</tr>';
+    } else {
+        while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+            echo '<tr>';
+            echo '<td>' . $data['intitule'] . '</td>';
+            echo '<td>' . $data['lieu'] . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td><a href="rediger-consulter-resultats.php?id_concours_resultats=' . $data["id_concours"] . '">Remettre</a></td>';
+            echo '</tr>';
+        }
+    }
+}
+
+function tableau_modifier_resultats_concours($date_jour) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score <> -1");
+    }
+    $query->execute([$date_jour]);
+
+    if ($query->rowCount() == 0) {
+        echo '<tr>';
+        echo '<td colspan="5" class="text-center">Il n\'y a aucun concours en attente de résultat.</td>';
+        echo '</tr>';
+    } else {
+        while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+            echo '<tr>';
+            echo '<td>' . $data['intitule'] . '</td>';
+            echo '<td>' . $data['lieu'] . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td><a href="rediger-consulter-resultats.php?id_concours_resultats=' . $data["id_concours"] . '">Modifier</a></td>';
+            echo '</tr>';
+        }
+    }
+}
+
 function liste_participant($id_concours) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT i.id_membre, num_licence, nom, prenom FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ?");
+        $query = connectDB()->prepare("SELECT i.id_membre, score, num_licence, nom, prenom FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ?");
     }
 
     $query->execute([$id_concours]);
@@ -357,7 +413,29 @@ function liste_participant($id_concours) {
         echo '<td>' . $data['num_licence'] . '</td>';
         echo '<td>' . $data['nom'] . '</td>';
         echo '<td>' . $data['prenom'] . '</td>';
-        echo '<td><input type="number" name="' . $data['id_membre'] . '_score" min="0" max="600"></td>';
+        if ($data['score'] != -1)
+            echo '<td><input type="number" name="' . $data['id_membre'] . '_score" value="' . $data['score'] . '" min="0" max="600"></td>';
+        else
+            echo '<td><input type="number" name="' . $data['id_membre'] . '_score" min="0" max="600"></td>';
+        echo '</tr>';
+    }
+}
+
+function consulter_concours($id_concours) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT i.id_membre, score, num_licence, nom, prenom FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ?");
+    }
+
+    $query->execute([$id_concours]);
+
+    while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+        echo '<tr>';
+        echo '<td>' . $data['num_licence'] . '</td>';
+        echo '<td>' . $data['nom'] . '</td>';
+        echo '<td>' . $data['prenom'] . '</td>';
+        echo '<td>' . $data['score'] . '</td>';
         echo '</tr>';
     }
 }
@@ -372,4 +450,20 @@ function mise_a_jour_score($id_membre, $score, $id_concours) {
     );
 
     $query->execute($data);
+}
+
+function resultat_remis($id_concours) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT * FROM `t_inscrits` WHERE id_concours = ? AND score <> -1");
+    }
+    $query->execute([$id_concours]);
+
+    $data = $query->fetch(PDO::FETCH_ASSOC);
+
+    if ($data === false)
+        return false;
+    else
+        return true;
 }

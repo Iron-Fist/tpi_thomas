@@ -7,15 +7,21 @@ require './librairie/librairie_membres.php';
 $est_connecte = false;
 $date_jour = date('Y-m-d');
 
-if (isset($_REQUEST["remise"])) {
 
+if (isset($_REQUEST['remise'])) {
     foreach ($_REQUEST as $key => $value) {
 
         if (preg_match("#(\d+)_(score)#", $key, $matches)) {
             $id = $matches[1];
-            mise_a_jour_score($id, $value, $_REQUEST['id_concours_remise_resultats']);
+            mise_a_jour_score($id, $value, $_REQUEST['id_concours_resultats']);
         }
     }
+
+    header('Location: administration.php');
+}
+
+if (isset($_REQUEST['annuler'])) {
+    header('Location: administration.php');
 }
 ?>
 <!DOCTYPE html>
@@ -99,10 +105,19 @@ if (isset($_REQUEST["remise"])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php liste_participant($_REQUEST['id_concours_remise_resultats']) ?>
+                                <?php
+                                if (isset($_REQUEST['id_concours_resultats']))
+                                    liste_participant($_REQUEST['id_concours_resultats']);
+                                else
+                                    consulter_concours($_REQUEST['id_concours_consulte']);
+                                ?>
                             </tbody>
                         </table>
-                        <input type="submit" class="btn btn-default" name="remise" value="Rendre les résultats">
+                        <?php
+                        if (isset($_REQUEST['id_concours_resultats']))
+                            echo '<input type="submit" class="btn btn-default" name="remise" value="Rendre les résultats">';
+                        ?>
+                        <input type="submit" class="btn btn-default" name="annuler" value="Annuler">
                     </form>
                 </section>
             </div>

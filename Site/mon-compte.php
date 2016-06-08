@@ -5,6 +5,7 @@ require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
 $date_jour = date('Y-m-d');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -87,11 +88,41 @@ $date_jour = date('Y-m-d');
                                 <th>
                                     Date du concours
                                 </th>
+                                <th>
+                                    Désinscription
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             tableau_futur_concours_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
+                            ?>
+                        </tbody>
+                    </table>
+                    
+                    <table class="table table-bordered table-striped table-condensed">
+                        <caption>
+                            Liste des concours auquel j'ai participé :
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>
+                                    Intitule
+                                </th>
+                                <th>
+                                    Lieu
+                                </th>
+                                <th>
+                                    Date du concours
+                                </th>
+                                <th>
+                                    Résultats
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            tableau_concours_passe_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
                             ?>
                         </tbody>
                     </table>
