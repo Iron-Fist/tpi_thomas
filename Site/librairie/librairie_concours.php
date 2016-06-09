@@ -60,7 +60,7 @@ function supprimer_concours($id_concours) {
     return $data;
 }
 
-function desinscrire_membres_inscrits_concours_supprimer($id_concours) {
+function desinscrire_membres_du_concours_supprimer($id_concours) {
     $query = connectDB()->prepare("DELETE FROM t_inscrits WHERE id_concours = ?");
     $query->execute([$id_concours]);
     $data = $query->fetch(PDO::FETCH_ASSOC);
