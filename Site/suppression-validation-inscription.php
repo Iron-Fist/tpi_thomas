@@ -15,6 +15,7 @@ if(isset($_REQUEST['id_membre_suppression'])){
 }
 
 if(isset($_REQUEST['id_concours_suppression'])){
+    desinscrire_membres_inscrits_concours_supprimer($_REQUEST['id_concours_suppression']);
     supprimer_concours($_REQUEST['id_concours_suppression']);
     header('Location: administration.php');
 }
