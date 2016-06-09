@@ -4,7 +4,7 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-if(!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connecte']['est_admin'] == 0){
+if (!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connecte']['est_admin'] == 0) {
     header('Location: mon-compte.php');
 }
 
@@ -18,7 +18,7 @@ if (isset($_REQUEST['administration_concours'])) {
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Administration</title>
+        <title>Administration membres</title>
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/css/tuto.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
@@ -78,62 +78,60 @@ if (isset($_REQUEST['administration_concours'])) {
 
                         <input type="submit" class="btn btn-default" name="administration_concours" value="Administration concours">
 
-                        <table class="table table-bordered table-striped table-condensed">
-                            <caption>
-                                Liste des futurs concours :
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Numéro de licence
-                                    </th>
-                                    <th>
-                                        Nom
-                                    </th>
-                                    <th>
-                                        Prénom
-                                    </th>
-                                    <th>
-                                        Date de naissance
-                                    </th>
-                                    <th>
-                                        Validation
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php tableau_membre_non_valide() ?>
-                            </tbody>
-                        </table>
-
-                        <table class="table table-bordered table-striped table-condensed">
-                            <caption>
-                                Liste des utilisateurs validé :
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Numéro de licence
-                                    </th>
-                                    <th>
-                                        Nom
-                                    </th>
-                                    <th>
-                                        Prénom
-                                    </th>
-                                    <th>
-                                        Date de naissance
-                                    </th>
-                                    <th>
-                                        Modification
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php tableau_membre_valide() ?>
-                            </tbody>
-                        </table>
-
+                        <h5>Liste des membres en attente de validation :</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Numéro de licence
+                                        </th>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Prénom
+                                        </th>
+                                        <th>
+                                            Date de naissance
+                                        </th>
+                                        <th>
+                                            Validation
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php tableau_membre_non_valide() ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <h5>Liste des membres validé :</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Numéro de licence
+                                        </th>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Prénom
+                                        </th>
+                                        <th>
+                                            Date de naissance
+                                        </th>
+                                        <th>
+                                            Modification
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php tableau_membre_valide() ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                 </section>
             </div>

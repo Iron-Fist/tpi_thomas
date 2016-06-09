@@ -4,12 +4,11 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-if(!isset($_SESSION['membre_connecte'])){
+if (!isset($_SESSION['membre_connecte'])) {
     header('Location: connexion.php');
 }
 
 $date_jour = date('Y-m-d');
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -73,63 +72,66 @@ $date_jour = date('Y-m-d');
             <div class="row">
                 <section class="col-sm-12 table-responsive">
                     <legend>Mon compte</legend>
-                    
-                    <table class="table table-bordered table-striped table-condensed">
-                        <caption>
-                            Liste des concours auquel je suis inscrit :
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Intitule
-                                </th>
-                                <th>
-                                    Lieu
-                                </th>
-                                <th>
-                                    Nombre de places
-                                </th>
-                                <th>
-                                    Date du concours
-                                </th>
-                                <th>
-                                    Désinscription
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            tableau_futur_concours_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
-                            ?>
-                        </tbody>
-                    </table>
-                    
-                    <table class="table table-bordered table-striped table-condensed">
-                        <caption>
-                            Liste des concours auquel j'ai participé :
-                        </caption>
-                        <thead>
-                            <tr>
-                                <th>
-                                    Intitule
-                                </th>
-                                <th>
-                                    Lieu
-                                </th>
-                                <th>
-                                    Date du concours
-                                </th>
-                                <th>
-                                    Résultats
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            tableau_concours_passe_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
-                            ?>
-                        </tbody>
-                    </table>
+
+                    <h5>Liste des concours auxquels je suis inscrit :</h5>    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Intitule
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Nombre de places
+                                    </th>
+                                    <th>
+                                        Date du concours
+                                    </th>
+                                    <th>
+                                        Date limite des inscriptions
+                                    </th>
+                                    <th>
+                                        Désinscription
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                tableau_futur_concours_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h5>Liste des concours auxquels j'ai participé :</h5>    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Intitule
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Date du concours
+                                    </th>
+                                    <th>
+                                        Résultats
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                tableau_concours_passe_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </div>
             <div class="row">

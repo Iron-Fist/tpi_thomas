@@ -4,7 +4,7 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-if(!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connecte']['est_admin'] == 0){
+if (!isset($_SESSION['membre_connecte']['est_admin']) || $_SESSION['membre_connecte']['est_admin'] == 0) {
     header('Location: mon-compte.php');
 }
 
@@ -24,7 +24,7 @@ $date_jour = date('Y-m-d');
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Administration</title>
+        <title>Administration concours</title>
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/css/tuto.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
@@ -81,90 +81,92 @@ $date_jour = date('Y-m-d');
                 <section class="col-sm-12 table-responsive">
                     <form action="#" method="post">
                         <legend>Administration des concours</legend>
-                        
-                        <input type="submit" class="btn btn-default" name="administration_membres" value="Administration membres">
-                        
-                        <table class="table table-bordered table-striped table-condensed">
-                            <caption>
-                                Liste des futurs concours :
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Intitule
-                                    </th>
-                                    <th>
-                                        Lieu
-                                    </th>
-                                    <th>
-                                        Nombre de places
-                                    </th>
-                                    <th>
-                                        Date du concours
-                                    </th>
-                                    <th>
-                                        Modification
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php tableau_futur_concours($date_jour); ?>
-                            </tbody>
-                        </table>
 
-                        <table class="table table-bordered table-striped table-condensed">
-                            <caption>
-                                Liste des concours en attente de résultats :
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Intitule
-                                    </th>
-                                    <th>
-                                        Lieu
-                                    </th>
-                                    <th>
-                                        Date du concours
-                                    </th>
-                                    <th>
-                                        Résultats
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php tableau_remise_resultats_concours($date_jour); ?>
-                            </tbody>
-                        </table>
-                        
-                        <table class="table table-bordered table-striped table-condensed">
-                            <caption>
-                                Liste des concours avec résultats :
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Intitule
-                                    </th>
-                                    <th>
-                                        Lieu
-                                    </th>
-                                    <th>
-                                        Date du concours
-                                    </th>
-                                    <th>
-                                        Résultats
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php tableau_modifier_resultats_concours($date_jour); ?>
-                            </tbody>
-                        </table>
-                        
+                        <input type="submit" class="btn btn-default" name="administration_membres" value="Administration membres">
+
+                        <h5>Liste des futurs concours :</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Intitule
+                                        </th>
+                                        <th>
+                                            Lieu
+                                        </th>
+                                        <th>
+                                            Nombre de places
+                                        </th>
+                                        <th>
+                                            Date du concours
+                                        </th>
+                                        <th>
+                                            Date limite des inscriptions
+                                        </th>
+                                        <th>
+                                            Modification
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php tableau_futur_concours($date_jour); ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5>Liste des concours en attente de résultats :</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Intitule
+                                        </th>
+                                        <th>
+                                            Lieu
+                                        </th>
+                                        <th>
+                                            Date du concours
+                                        </th>
+                                        <th>
+                                            Résultats
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php tableau_remise_resultats_concours($date_jour); ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5>Liste des concours avec résultats :</h5>    
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Intitule
+                                        </th>
+                                        <th>
+                                            Lieu
+                                        </th>
+                                        <th>
+                                            Date du concours
+                                        </th>
+                                        <th>
+                                            Résultats
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php tableau_modifier_resultats_concours($date_jour); ?>
+                                </tbody>
+                            </table>
+                        </div>
                         <input type="submit" class="btn btn-default" name="creer_concours" value="Créer un Concours">
                     </form>
-                <br>
+                    <br>
                 </section>
             </div>
             <div class="row">

@@ -115,7 +115,7 @@ function tableau_membre_non_valide() {
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
-        echo '<td colspan="5" class="text-center">Il n\'y a aucun compte membre en attente de validation.</td>';
+        echo '<td colspan="5" class="text-center">Il n\'y a aucun membre en attente de validation.</td>';
         echo '</tr>';
     } else {
         while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
@@ -123,7 +123,7 @@ function tableau_membre_non_valide() {
             echo '<td>' . $data['num_licence'] . '</td>';
             echo '<td>' . $data['nom'] . '</td>';
             echo '<td>' . $data['prenom'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_naissance']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_naissance']), "d/m/Y") . '</td>';
             echo '<td><a href="suppression-validation-inscription.php?id_membre_valide=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-ok"></span></a></td>';
             echo '</tr>';
         }
@@ -143,7 +143,7 @@ function tableau_membre_valide() {
         echo '<td>' . $data['num_licence'] . '</td>';
         echo '<td>' . $data['nom'] . '</td>';
         echo '<td>' . $data['prenom'] . '</td>';
-        echo '<td>' . date_format(date_create($data['date_naissance']), "l d F") . '</td>';
+        echo '<td>' . date_format(date_create($data['date_naissance']), "d/m/Y") . '</td>';
         echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>';
         if(est_inscrit_concours($data['id_membre']))
             echo '</td>';

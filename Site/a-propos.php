@@ -79,33 +79,35 @@ require './librairie/librairie_membres.php';
                     Terrain et salle de tir à Jussy.<br>
                     Membre ADAGE (Association Des Archers Genevois)<br>
                     Membre SwissArchery (Swiss Archery Association)
-                    
+
                     <legend>Lieu :</legend>
                     23, route de Juvigny 1254 Jussy
-                    
+
                     <legend>Contact :</legend>
-                    <table class="table table-bordered table-striped table-condensed">
-                        <tr>
-                            <th>Nom / prénom</th>
-                            <th>E-mail</th>
-                            <th>Fonction</th>
-                        </tr>
-                        <tr>
-                            <td>DE GIULI Jean-Noël</td>
-                            <td>president@arc-club-jussy.ch</td>
-                            <td>Président</td>
-                        </tr>
-                        <tr>
-                            <td>BOVISI Marco</td>
-                            <td>entraineur@arc-club-jussy.ch</td>
-                            <td>Directeur sportif</td>
-                        </tr>
-                        <tr>
-                            <td>RUIZ Olivier</td>
-                            <td>logistique@arc-club-jussy.ch</td>
-                            <td>Directeur logistique</td>
-                        </tr>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <tr>
+                                <th>Nom / prénom</th>
+                                <th>E-mail</th>
+                                <th>Fonction</th>
+                            </tr>
+                            <tr>
+                                <td>DE GIULI Jean-Noël</td>
+                                <td>president@arc-club-jussy.ch</td>
+                                <td>Président</td>
+                            </tr>
+                            <tr>
+                                <td>BOVISI Marco</td>
+                                <td>entraineur@arc-club-jussy.ch</td>
+                                <td>Directeur sportif</td>
+                            </tr>
+                            <tr>
+                                <td>RUIZ Olivier</td>
+                                <td>logistique@arc-club-jussy.ch</td>
+                                <td>Directeur logistique</td>
+                            </tr>
+                        </table>
+                    </div>
                 </section>
             </div>
             <div class="row">

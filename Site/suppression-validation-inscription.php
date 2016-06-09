@@ -30,7 +30,9 @@ if(isset($_REQUEST['id_concours_desinscription'])){
     header('Location: index.php');
 }
 
-header('Location: administration.php')
+if(!isset($_REQUEST)){
+header('Location: administration.php');
+}
 ?>
 <!DOCTYPE html>
 <html>

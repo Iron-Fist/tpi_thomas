@@ -75,32 +75,38 @@ $date_jour = date('Y-m-d');
                     </p>
 
                     <legend>Liste des futurs concours :</legend>
-                    <table class="table table-bordered table-striped table-condensed">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Intitule
-                                </th>
-                                <th>
-                                    Lieu
-                                </th>
-                                <th>
-                                    Nombre de places
-                                </th>
-                                <th>
-                                    Date du concours
-                                </th>
-                                <th>
-                                    Date limite des inscriptions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            tableau_futur_concours_inscription($date_jour, isset($_SESSION['membre_connecte']) ? $_SESSION['membre_connecte']["id_membre"] : -1);
-                            ?>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Intitule
+                                    </th>
+                                    <th>
+                                        Lieu
+                                    </th>
+                                    <th>
+                                        Nombre de places
+                                    </th>
+                                    <th>
+                                        Date du concours
+                                    </th>
+                                    <th>
+                                        Date limite des inscriptions
+                                    </th>
+                                    <?php
+                                    if(isset($_SESSION['membre_connecte']))
+                                        echo '<th>Inscription</th>';
+                                    ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                tableau_futur_concours_inscription($date_jour, isset($_SESSION['membre_connecte']) ? $_SESSION['membre_connecte']["id_membre"] : -1);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </div>
             <div class="row">

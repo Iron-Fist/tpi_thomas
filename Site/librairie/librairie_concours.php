@@ -255,7 +255,8 @@ function tableau_futur_concours($date_jour) {
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
             echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
             echo '<td><a href="creer-modifier-concours.php?id_concours_modification=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-wrench"></span></a>'
             . " " . '<a href="suppression-validation-inscription.php?id_concours_suppression=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
             echo '</tr>';
@@ -281,8 +282,8 @@ function tableau_futur_concours_inscription($date_jour, $id_membre) {
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
             echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
-            echo '<td>' . date_format(date_create($data['date_limite_inscription']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
             if ($id_membre != -1) {
                 if ($data['date_limite_inscription'] >= $date_jour) {
                     if (est_inscrit($data['id_concours'], $id_membre)) {
@@ -306,7 +307,7 @@ function tableau_futur_concours_inscrits($id_membre, $date_jour) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT c.id_concours, c.intitule, c.lieu, c.nb_places, c.date_concours, c.date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours >= ?");
+        $query = connectDB()->prepare("SELECT c.id_concours, intitule, lieu, nb_places, date_concours, date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours >= ?");
     }
 
     $query->execute([$id_membre, $date_jour]);
@@ -322,7 +323,8 @@ function tableau_futur_concours_inscrits($id_membre, $date_jour) {
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
             echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
             echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
             echo '</tr>';
         }
@@ -348,7 +350,7 @@ function tableau_concours_passe_inscrits($id_membre, $date_jour) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             if (resultat_remis($data['id_concours']))
                 echo '<td><a href="rediger-consulter-resultats.php?id_concours_consulte=' . $data["id_concours"] . '">Consulter</a></td>';
             else
@@ -375,7 +377,7 @@ function tableau_remise_resultats_concours($date_jour) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             echo '<td><a href="rediger-consulter-resultats.php?id_concours_resultats=' . $data["id_concours"] . '">Remettre</a></td>';
             echo '</tr>';
         }
@@ -399,7 +401,7 @@ function tableau_modifier_resultats_concours($date_jour) {
             echo '<tr>';
             echo '<td>' . $data['intitule'] . '</td>';
             echo '<td>' . $data['lieu'] . '</td>';
-            echo '<td>' . date_format(date_create($data['date_concours']), "l d F") . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             echo '<td><a href="rediger-consulter-resultats.php?id_concours_resultats=' . $data["id_concours"] . '">Modifier</a></td>';
             echo '</tr>';
         }

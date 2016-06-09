@@ -93,32 +93,34 @@ if (isset($_REQUEST['annuler'])) {
                 <section class="col-sm-12 table-responsive">
                     <form action="#" method="post">
                         <legend>Remise des résultats : </legend>
-                        <table class="table table-bordered table-striped table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Numéro de licence
-                                    </th>
-                                    <th>
-                                        Nom
-                                    </th>
-                                    <th>
-                                        Prénom
-                                    </th>
-                                    <th>
-                                        Score
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                if (isset($_REQUEST['id_concours_resultats']))
-                                    liste_participant($_REQUEST['id_concours_resultats']);
-                                else
-                                    consulter_concours($_REQUEST['id_concours_consulte']);
-                                ?>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Numéro de licence
+                                        </th>
+                                        <th>
+                                            Nom
+                                        </th>
+                                        <th>
+                                            Prénom
+                                        </th>
+                                        <th>
+                                            Score
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if (isset($_REQUEST['id_concours_resultats']))
+                                        liste_participant($_REQUEST['id_concours_resultats']);
+                                    else
+                                        consulter_concours($_REQUEST['id_concours_consulte']);
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                         <?php
                         if (isset($_REQUEST['id_concours_resultats']))
                             echo '<input type="submit" class="btn btn-default" name="remise" value="Rendre les résultats">';

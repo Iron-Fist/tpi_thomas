@@ -31,7 +31,10 @@ if (isset($_REQUEST['valider'])) {
 }
 
 if (isset($_REQUEST['annuler'])) {
-    header('Location: connexion.php');
+    if (isset($_REQUEST['id_membre_modification']))
+        header('Location: administration-membres.php');
+    else
+        header('Location: connexion.php');
 }
 ?>
 <!DOCTYPE html>
