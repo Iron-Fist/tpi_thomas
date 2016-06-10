@@ -100,7 +100,11 @@ function charger_donnees_membre($id_membre) {
 
 function date_naissance_valide($date_naissance) {
     if (preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})$#", $date_naissance, $matches)) {
-        return checkdate($matches[2], $matches[3], $matches[1]);
+        if(checkdate($matches[2], $matches[3], $matches[1])){
+            if($date_naissance < date('Y-m-d')){
+                return true;
+            }
+        }
     }
     return false;
 }
