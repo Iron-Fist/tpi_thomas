@@ -3,8 +3,6 @@ session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
-
-$date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -102,7 +100,7 @@ $date_jour = date('Y-m-d');
                             </thead>
                             <tbody>
                                 <?php
-                                tableau_futur_concours_inscription($date_jour, isset($_SESSION['membre_connecte']) ? $_SESSION['membre_connecte']["id_membre"] : -1);
+                                tableau_futur_concours_inscription(isset($_SESSION['membre_connecte']) ? $_SESSION['membre_connecte']["id_membre"] : -1);
                                 ?>
                             </tbody>
                         </table>

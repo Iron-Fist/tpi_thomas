@@ -183,43 +183,24 @@ function nb_inscrits($id_concours) {
     return $query->fetch(PDO::FETCH_ASSOC)['nb_inscrits'];
 }
 
-function creation_concours_valide($concours, $date_limite_inscription) {
+function validation_creation_modification_concours($concours, $date_limite_inscription, $modification) {
     $message_erreur = "";
 
     if ($concours['intitule'] != "") {
-        if (concours_existe($concours['intitule']) === false) {
-            if ($concours['lieu'] != "") {
-                if ($concours['nb_places'] > 0 && $concours['nb_places'] != "") {
-                    if (date_concours_valide($concours['date_concours'], $date_limite_inscription)) {
-                        creer_concours($concours['intitule'], $concours['lieu'], $concours['nb_places'], $concours['date_concours'], $date_limite_inscription);
-                        header('Location: administration.php');
-                    } else {
-                        $message_erreur = "La <b>Date</b> n'est pas valide.";
-                    }
-                } else {
-                    $message_erreur = "Le champ <b>Nombre de places</b> n'est pas composé d'un nombre suffisament élevé.";
-                }
-            } else {
-                $message_erreur = "Le champ <b>Lieu</b> est vide.";
+        if ($modification === false) {
+            if (concours_existe($concours['intitule']) === true) {
+                return $message_erreur = "L'<b>Intitule</b> est déjà utilisé.";
+                exit();
             }
-        } else {
-            $message_erreur = "L'<b>Intitule</b> est déjà utilisé.";
         }
-    } else {
-        $message_erreur = "Le champ <b>Intitule</b> est vide.";
-    }
 
-    return $message_erreur;
-}
-
-function modification_concours_valide($concours, $date_limite_inscription) {
-    $message_erreur = "";
-
-    if ($concours['intitule'] != "") {
         if ($concours['lieu'] != "") {
             if ($concours['nb_places'] > 0 && $concours['nb_places'] != "") {
                 if (date_concours_valide($concours['date_concours'], $date_limite_inscription)) {
-                    modifier_concours($concours['id_concours'], $concours['intitule'], $concours['lieu'], $concours['nb_places'], $concours['date_concours'], $date_limite_inscription);
+                    if ($modification)
+                        modifier_concours($concours['id_concours'], $concours['intitule'], $concours['lieu'], $concours['nb_places'], $concours['date_concours'], $date_limite_inscription);
+                    else
+                        creer_concours($concours['intitule'], $concours['lieu'], $concours['nb_places'], $concours['date_concours'], $date_limite_inscription);
                     header('Location: administration.php');
                 } else {
                     $message_erreur = "La <b>Date</b> n'est pas valide.";
@@ -237,13 +218,13 @@ function modification_concours_valide($concours, $date_limite_inscription) {
     return $message_erreur;
 }
 
-function tableau_futur_concours($date_jour) {
+function tableau_futur_concours() {
     static $query = null;
 
     if ($query == null) {
         $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` > ?");
     }
-    $query->execute([$date_jour]);
+    $query->execute([date('Y-m-d')]);
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
@@ -264,13 +245,13 @@ function tableau_futur_concours($date_jour) {
     }
 }
 
-function tableau_futur_concours_inscription($date_jour, $id_membre) {
+function tableau_futur_concours_inscription($id_membre) {
     static $query = null;
 
     if ($query == null) {
         $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` >= ?");
     }
-    $query->execute([$date_jour]);
+    $query->execute([date('Y-m-d')]);
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
@@ -285,13 +266,12 @@ function tableau_futur_concours_inscription($date_jour, $id_membre) {
             echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
             if ($id_membre != -1) {
-                if ($data['date_limite_inscription'] >= $date_jour) {
+                if ($data['date_limite_inscription'] >= date('Y-m-d')) {
                     if (est_inscrit($data['id_concours'], $id_membre)) {
                         echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
-                    } else if(($data['nb_places'] - nb_inscrits($data['id_concours'])) > 0) {
+                    } else if (($data['nb_places'] - nb_inscrits($data['id_concours'])) > 0) {
                         echo '<td><a href="suppression-validation-inscription.php?id_concours_inscription=' . $data["id_concours"] . '">Inscription</a></td>';
-                    }
-                    else{
+                    } else {
                         echo '<td>Plus de places</td>';
                     }
                 } else {
@@ -303,14 +283,14 @@ function tableau_futur_concours_inscription($date_jour, $id_membre) {
     }
 }
 
-function tableau_futur_concours_inscrits($id_membre, $date_jour) {
+function tableau_futur_concours_inscrits($id_membre) {
     static $query = null;
 
     if ($query == null) {
         $query = connectDB()->prepare("SELECT c.id_concours, intitule, lieu, nb_places, date_concours, date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours >= ?");
     }
 
-    $query->execute([$id_membre, $date_jour]);
+    $query->execute([$id_membre, date('Y-m-d')]);
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
@@ -331,14 +311,14 @@ function tableau_futur_concours_inscrits($id_membre, $date_jour) {
     }
 }
 
-function tableau_concours_passe_inscrits($id_membre, $date_jour) {
+function tableau_concours_passe_inscrits($id_membre) {
     static $query = null;
 
     if ($query == null) {
         $query = connectDB()->prepare("SELECT c.id_concours, c.intitule, c.lieu, c.nb_places, c.date_concours, c.date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours <= ?");
     }
 
-    $query->execute([$id_membre, $date_jour]);
+    $query->execute([$id_membre, date('Y-m-d')]);
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
@@ -360,13 +340,13 @@ function tableau_concours_passe_inscrits($id_membre, $date_jour) {
     }
 }
 
-function tableau_remise_resultats_concours($date_jour) {
+function tableau_remise_resultats_concours() {
     static $query = null;
 
     if ($query == null) {
         $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score = -1");
     }
-    $query->execute([$date_jour]);
+    $query->execute([date('Y-m-d')]);
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
@@ -384,13 +364,13 @@ function tableau_remise_resultats_concours($date_jour) {
     }
 }
 
-function tableau_modifier_resultats_concours($date_jour) {
+function tableau_modifier_resultats_concours() {
     static $query = null;
 
     if ($query == null) {
         $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score <> -1");
     }
-    $query->execute([$date_jour]);
+    $query->execute([date('Y-m-d')]);
 
     if ($query->rowCount() == 0) {
         echo '<tr>';

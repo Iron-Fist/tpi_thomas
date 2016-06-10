@@ -15,8 +15,6 @@ if (isset($_REQUEST['administration_membres'])) {
 if (isset($_REQUEST['creer_concours'])) {
     header('Location: creer-modifier-concours.php');
 }
-
-$date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -110,7 +108,7 @@ $date_jour = date('Y-m-d');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php tableau_futur_concours($date_jour); ?>
+                                    <?php tableau_futur_concours(); ?>
                                 </tbody>
                             </table>
                         </div>
@@ -135,7 +133,7 @@ $date_jour = date('Y-m-d');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php tableau_remise_resultats_concours($date_jour); ?>
+                                    <?php tableau_remise_resultats_concours(); ?>
                                 </tbody>
                             </table>
                         </div>
@@ -160,7 +158,7 @@ $date_jour = date('Y-m-d');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php tableau_modifier_resultats_concours($date_jour); ?>
+                                    <?php tableau_modifier_resultats_concours(); ?>
                                 </tbody>
                             </table>
                         </div>

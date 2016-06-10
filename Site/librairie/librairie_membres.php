@@ -100,8 +100,8 @@ function charger_donnees_membre($id_membre) {
 
 function date_naissance_valide($date_naissance) {
     if (preg_match("#^([0-9]{4})-([0-9]{2})-([0-9]{2})$#", $date_naissance, $matches)) {
-        if(checkdate($matches[2], $matches[3], $matches[1])){
-            if($date_naissance < date('Y-m-d')){
+        if (checkdate($matches[2], $matches[3], $matches[1])) {
+            if ($date_naissance < date('Y-m-d')) {
                 return true;
             }
         }
@@ -149,10 +149,10 @@ function tableau_membre_valide() {
         echo '<td>' . $data['prenom'] . '</td>';
         echo '<td>' . date_format(date_create($data['date_naissance']), "d/m/Y") . '</td>';
         echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>';
-        if(est_inscrit_concours($data['id_membre']))
+        if (est_inscrit_concours($data['id_membre']))
             echo '</td>';
         else
-        echo " " . '<a href="suppression-validation-inscription.php?id_membre_suppression=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
+            echo " " . '<a href="suppression-validation-inscription.php?id_membre_suppression=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
         echo '</tr>';
     }
 }
@@ -196,68 +196,39 @@ function num_licence_valide($num_licence) {
     return preg_match("([0-9]{5})", $date_concours, $matches);
 }
 
-function creation_membre_valide($membre, $mdp, $mdp_verif) {
+function validation_creation_modification_membre($membre, $mdp, $mdp_verif, $cree_nouveau_membre) {
     $message_erreur = "";
 
     if ($membre['num_licence'] != "") {
         if (preg_match("/^([0-9]{5})$/", $membre['num_licence'], $matches)) {
-            if (num_licence_existe($membre['num_licence']) === false) {
-                if ($membre['nom'] != "") {
-                    if ($membre['prenom'] != "") {
-                        if (date_naissance_valide($membre['date_naissance'])) {
-                            if ($mdp != "" && $mdp_verif != "") {
-                                if ($mdp == $mdp_verif) {
-                                    creer_membre($membre['num_licence'], $membre['nom'], $membre['prenom'], $membre['date_naissance'], $mdp);
-                                    header('Location: connexion.php');
-                                } else {
-                                    $message_erreur = "Vos deux mots de passe ne sont pas identiques";
-                                }
-                            } else {
-                                $message_erreur = "Les deux champ de mot de passe sont vides.";
-                            }
-                        } else {
-                            $message_erreur = "Le champ <b>Date de naissance</b> est invalide.";
-                        }
-                    } else {
-                        $message_erreur = "Le champ <b>Prénom</b> est vide.";
-                    }
-                } else {
-                    $message_erreur = "Le champ <b>Nom</b> est vide.";
+            if ($cree_nouveau_membre) {
+                if (num_licence_existe($membre['num_licence'])) {
+                    return $message_erreur = "Votre <b>Numéro de licence</b> est déjà utilisé.";
+                    exit();
                 }
-            } else {
-                $message_erreur = "Votre <b>Numéro de licence</b> est déjà utilisé.";
             }
-        } else {
-            $message_erreur = "Votre <b>Numéro de licence</b> ne contient pas exactement 5 chiffres.";
-        }
-    } else {
-        $message_erreur = "Le champ <b>Numéro de licence</b> est vide.";
-    }
 
-    return $message_erreur;
-}
-
-function modification_membre_valide($membre, $mdp, $mdp_verif) {
-    $message_erreur = "";
-
-    if ($membre['num_licence'] != "") {
-        if (preg_match("/^([0-9]{5})$/", $membre['num_licence'], $matches)) {
             if ($membre['nom'] != "") {
                 if ($membre['prenom'] != "") {
                     if (date_naissance_valide($membre['date_naissance'])) {
                         if ($mdp != "" && $mdp_verif != "") {
                             if ($mdp == $mdp_verif) {
-                                modifier_membre($membre['id_membre'], $membre['num_licence'], $membre['nom'], $membre['prenom'], $membre['date_naissance'], $mdp);
-                                header('Location: administration-membres.php');
-                                exit();
+                                if ($cree_nouveau_membre) {
+                                    creer_membre($membre['num_licence'], $membre['nom'], $membre['prenom'], $membre['date_naissance'], $mdp);
+                                    header('Location: connexion.php');
+                                } else {
+                                    modifier_membre($membre['id_membre'], $membre['num_licence'], $membre['nom'], $membre['prenom'], $membre['date_naissance'], $mdp);
+                                    header('Location: administration-membres.php');
+                                }
                             } else {
-                                $erreur = true;
                                 $message_erreur = "Vos deux mots de passe ne sont pas identiques";
                             }
                         } else {
-                            modifier_membre_sans_mdp($membre['id_membre'], $membre['num_licence'], $membre['nom'], $membre['prenom'], $membre['date_naissance']);
-                            header('Location: administration-membres.php');
-                            exit();
+                            if (!$cree_nouveau_membre) {
+                                modifier_membre_sans_mdp($membre['id_membre'], $membre['num_licence'], $membre['nom'], $membre['prenom'], $membre['date_naissance']);
+                                header('Location: administration-membres.php');
+                            }
+                            $message_erreur = "Les deux champ de mot de passe sont vides.";
                         }
                     } else {
                         $message_erreur = "Le champ <b>Date de naissance</b> est invalide.";

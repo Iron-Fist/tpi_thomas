@@ -24,9 +24,11 @@ if (isset($_REQUEST['valider'])) {
 
 
     if ($membre['id_membre'] != -1) {
-        $message_erreur = modification_membre_valide($membre, $mdp, $mdp_verif);
+        $cree_nouveau_membre = false;
+        $message_erreur = validation_creation_modification_membre($membre, $mdp, $mdp_verif, $cree_nouveau_membre);
     } else {
-        $message_erreur = creation_membre_valide($membre, $mdp, $mdp_verif);
+        $cree_nouveau_membre = true;
+        $message_erreur = validation_creation_modification_membre($membre, $mdp, $mdp_verif, $cree_nouveau_membre);
     }
 }
 
@@ -123,7 +125,7 @@ if (isset($_REQUEST['annuler'])) {
 
                         <label for="prenom">Prénom : </label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo $membre['prenom'] ?>">
+                            <input type="text" class="form-control" id="prenom" name="prenom" pattern="[a-zA-Z]+" value="<?php echo $membre['prenom'] ?>">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                         </div>
 

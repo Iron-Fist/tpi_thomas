@@ -7,8 +7,6 @@ require './librairie/librairie_membres.php';
 if (!isset($_SESSION['membre_connecte'])) {
     header('Location: connexion.php');
 }
-
-$date_jour = date('Y-m-d');
 ?>
 <!DOCTYPE html>
 <html>
@@ -100,7 +98,7 @@ $date_jour = date('Y-m-d');
                             </thead>
                             <tbody>
                                 <?php
-                                tableau_futur_concours_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
+                                tableau_futur_concours_inscrits($_SESSION['membre_connecte']['id_membre']);
                                 ?>
                             </tbody>
                         </table>
@@ -127,7 +125,7 @@ $date_jour = date('Y-m-d');
                             </thead>
                             <tbody>
                                 <?php
-                                tableau_concours_passe_inscrits($_SESSION['membre_connecte']['id_membre'], $date_jour);
+                                tableau_concours_passe_inscrits($_SESSION['membre_connecte']['id_membre']);
                                 ?>
                             </tbody>
                         </table>

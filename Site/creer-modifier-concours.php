@@ -28,9 +28,11 @@ if (isset($_REQUEST['valider'])) {
     $concours['date_concours'] = filter_input(INPUT_POST, 'date_concours', FILTER_SANITIZE_STRING);
 
     if ($concours['id_concours'] != -1) {
-        $message_erreur = modification_concours_valide($concours, $date_limite_inscription);
+        $modification = true;
+        $message_erreur = validation_creation_modification_concours($concours, $date_limite_inscription, $modification);
     } else {
-        $message_erreur = creation_concours_valide($concours, $date_limite_inscription);
+        $modification = false;
+        $message_erreur = validation_creation_modification_concours($concours, $date_limite_inscription, $modification);
     }    
 }
 
