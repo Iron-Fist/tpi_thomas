@@ -42,30 +42,7 @@ if(isset($_REQUEST['annuler'])){
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?php echo isset($_REQUEST['id_concours_modification']) ? "Modification" : "Création"; ?> d'un concours</title>
-        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-        <link href="bootstrap/css/tuto.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
-        <script src="./bootstrap/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <nav id="navigation" class="navbar navbar-default">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="navbar-header">
-                        <a class="navbar-brand">Arc club Jussy</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <?php debut_de_page(isset($_REQUEST['id_concours_modification']) ? "Modifier un concours - Arc club Jussy" : "Créer un concours - Arc club Jussy") ?>
                         <ul class="nav navbar-nav">
                             <li>
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
@@ -127,7 +104,7 @@ if(isset($_REQUEST['annuler'])){
                         <div class="form-group-sm">
                             <p>
                                 <label for="nb_places">Nombre de places : </label>
-                                <input type="number" class="form-control" id="nb_places" name="nb_places" min="1" max="10000" value="<?php echo $concours['nb_places'] ?>">
+                                <input type="number" class="form-control" id="nb_places" name="nb_places" max="10000" value="<?php echo $concours['nb_places'] ?>">
                             </p>
                         </div>
                         <div class="form-group-sm">

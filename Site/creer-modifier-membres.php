@@ -41,30 +41,7 @@ if (isset($_REQUEST['annuler'])) {
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title><?php echo isset($_REQUEST['id_membre_modification']) ? "Modification" : "Création"; ?> d'un compte membre</title>
-        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-        <link href="bootstrap/css/tuto.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
-        <script src="./bootstrap/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <nav id="navigation" class="navbar navbar-default">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <div class="navbar-header">
-                        <a class="navbar-brand">Arc club Jussy</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <?php debut_de_page(isset($_REQUEST['id_membre_modification']) ? "Modifier un membre - Arc club Jussy" : "Créer un membre - Arc club Jussy") ?>
                         <ul class="nav navbar-nav">
                             <li>
                                 <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
@@ -119,13 +96,13 @@ if (isset($_REQUEST['annuler'])) {
 
                         <label for="nom">Nom : </label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="nom" name="nom" value="<?php echo $membre['nom'] ?>">
+                            <input type="text" class="form-control" id="nom" name="nom" pattern="[a-zA-Zàäéèöü]+" value="<?php echo $membre['nom'] ?>">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                         </div>
 
                         <label for="prenom">Prénom : </label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="prenom" name="prenom" pattern="[a-zA-Z]+" value="<?php echo $membre['prenom'] ?>">
+                            <input type="text" class="form-control" id="prenom" name="prenom" pattern="[a-zA-Zàäéèöü]+" value="<?php echo $membre['prenom'] ?>">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                         </div>
 
@@ -148,7 +125,7 @@ if (isset($_REQUEST['annuler'])) {
                         </div>
 
                         <br>
-                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo isset($_REQUEST['id_membre_modification']) ? "Modifier" : "Créer"; ?>">
+                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo isset($_REQUEST['id_membre_modification']) ? "Modifier" : "S'inscrire"; ?>">
                         <input type="submit" class="btn btn-default" name="annuler" value="Annuler">
 
                     </form>

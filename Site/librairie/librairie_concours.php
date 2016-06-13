@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Création d'un concours
  * @staticvar var $query
@@ -53,20 +52,31 @@ function modifier_concours($id_concours, $intitule, $lieu, $nb_places, $date_con
     $query->execute($data);
 }
 
+/**
+ * Suppression du concours de la table t_concours ayant comme id_concours : $id_concours
+ * @param int $id_concours
+ * @return array $data
+ */
 function supprimer_concours($id_concours) {
     $query = connectDB()->prepare("DELETE FROM t_concours WHERE id_concours = ?");
     $query->execute([$id_concours]);
-    $data = $query->fetch(PDO::FETCH_ASSOC);
-    return $data;
 }
 
+/**
+ * Suppression de la totalité des enregistrements de la table t_inscrits ayant comme id_concours : $id_concours
+ * @param int $id_concours
+ */
 function desinscrire_membres_du_concours_supprimer($id_concours) {
     $query = connectDB()->prepare("DELETE FROM t_inscrits WHERE id_concours = ?");
     $query->execute([$id_concours]);
-    $data = $query->fetch(PDO::FETCH_ASSOC);
-    return $data;
 }
 
+/**
+ * Ajoute dans la table t_inscrits un nouvel enregistrement ayant comme id_concours : $id_concours et id_membre : $id_membre
+ * @staticvar var $query
+ * @param int $id_concours
+ * @param int $id_membre
+ */
 function inscription_concours($id_concours, $id_membre) {
     static $query = null;
 
@@ -81,6 +91,12 @@ function inscription_concours($id_concours, $id_membre) {
     ]);
 }
 
+/**
+ * Supprime un enregistrement de la table t_inscrits qui a comme id_concours : $id_concours et id_membre : $id_membre
+ * @staticvar var $query
+ * @param int $id_concours
+ * @param int $id_membre
+ */
 function desinscription_concours($id_concours, $id_membre) {
     static $query = null;
 
@@ -100,7 +116,7 @@ function charger_nouveau_concours() {
         "id_concours" => -1,
         "intitule" => "",
         "lieu" => "",
-        "nb_places" => "",
+        "nb_places" => 0,
         "date_concours" => "",
         "date_limite_inscription" => ""
     );
@@ -158,6 +174,14 @@ function date_concours_valide($date_concours, $date_limite_inscription) {
     return false;
 }
 
+/**
+ * Vérifie si il existe un enregistrement de la table t_inscrit
+ * qui aurait comme id_concours : $id_concours et id_membre : $id_membre
+ * @staticvar var $query
+ * @param int $id_concours
+ * @param int $id_membre
+ * @return boolean
+ */
 function est_inscrit($id_concours, $id_membre) {
     static $query = null;
 
@@ -172,6 +196,13 @@ function est_inscrit($id_concours, $id_membre) {
         return false;
 }
 
+/**
+ * Compte le nombre d'enregistrement de la table t_inscrits
+ * qui ont comme id_concours : $id_concours
+ * @staticvar var $query
+ * @param int $id_concours
+ * @return int
+ */
 function nb_inscrits($id_concours) {
     static $query = null;
 
@@ -183,6 +214,13 @@ function nb_inscrits($id_concours) {
     return $query->fetch(PDO::FETCH_ASSOC)['nb_inscrits'];
 }
 
+/**
+ * Fonction qui sert à la validation du formulaire de création d'un concours.
+ * @param array $concours
+ * @param date $date_limite_inscription
+ * @param boolean $modification
+ * @return string
+ */
 function validation_creation_modification_concours($concours, $date_limite_inscription, $modification) {
     $message_erreur = "";
 
@@ -218,6 +256,12 @@ function validation_creation_modification_concours($concours, $date_limite_inscr
     return $message_erreur;
 }
 
+/**
+ * Créé un tableau de tout les concours de la table t_concours
+ * qui on une date_concours plus grande que la date du jour.
+ * Avec en plus un lien pour modifier ou supprimer le concours.
+ * @staticvar var $query
+ */
 function tableau_futur_concours() {
     static $query = null;
 
@@ -228,7 +272,7 @@ function tableau_futur_concours() {
 
     if ($query->rowCount() == 0) {
         echo '<tr>';
-        echo '<td colspan="5" class="text-center">Il n\'y a aucun futurs concours.</td>';
+        echo '<td colspan="6" class="text-center">Il n\'y a aucun futurs concours.</td>';
         echo '</tr>';
     } else {
         while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
@@ -239,12 +283,21 @@ function tableau_futur_concours() {
             echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
             echo '<td><a href="creer-modifier-concours.php?id_concours_modification=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-wrench"></span></a>'
-            . " " . '<a href="suppression-validation-inscription.php?id_concours_suppression=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-trash"></span></a></td>';
+            . " " . '<a href="#" data-toggle="modal" data-target="#' . $data['id_concours'] . '"><span class="glyphicon glyphicon-trash"></span></a>';
             echo '</tr>';
+            creer_modale($data['id_concours'], 'Suppression de concours', 'Voulez-vous vraiment supprimer ' . $data['intitule'] . ' ?',
+                    '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_suppression=' . $data["id_concours"] . '">Oui</a>');
         }
     }
 }
 
+/**
+ * Créé un tableau de tout les concours de la table t_concours
+ * qui on une date_concours plus grande que la date du jour.
+ * Avec en plus un lien pour s'inscrire ou se désinscrire d'un concours.
+ * @staticvar var $query
+ * @param int $id_membre
+ */
 function tableau_futur_concours_inscription($id_membre) {
     static $query = null;
 
@@ -268,7 +321,7 @@ function tableau_futur_concours_inscription($id_membre) {
             if ($id_membre != -1) {
                 if ($data['date_limite_inscription'] >= date('Y-m-d')) {
                     if (est_inscrit($data['id_concours'], $id_membre)) {
-                        echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
+                        echo '<td><a href="#" data-toggle="modal" data-target="#' . $data['id_concours'] . '">Désinscription</a></td>';
                     } else if (($data['nb_places'] - nb_inscrits($data['id_concours'])) > 0) {
                         echo '<td><a href="suppression-validation-inscription.php?id_concours_inscription=' . $data["id_concours"] . '">Inscription</a></td>';
                     } else {
@@ -279,10 +332,19 @@ function tableau_futur_concours_inscription($id_membre) {
                 }
             }
             echo '</tr>';
+            
+            creer_modale($data['id_concours'], 'Désinscription d\'un concours', 'Voulez-vous vraiment vous désinscrire du conours ' . $data['intitule'] . ' ?',
+                    '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Oui</a>');
         }
     }
 }
 
+/**
+ * Créé un tableau de tout les concours auxquels le membre connecté s'est inscrit
+ * et qui n'ont pas encore eu lieu.
+ * @staticvar var $query
+ * @param int $id_membre
+ */
 function tableau_futur_concours_inscrits($id_membre) {
     static $query = null;
 
@@ -305,12 +367,22 @@ function tableau_futur_concours_inscrits($id_membre) {
             echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
-            echo '<td><a href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Désinscription</a></td>';
+            echo '<td><a href="#" data-toggle="modal" data-target="#' . $data['id_concours'] . '">Désinscription</a></td>';
             echo '</tr>';
+            creer_modale($data['id_concours'], 'Désinscription d\'un concours', 'Voulez-vous vraiment vous désinscrire du conours ' . $data['intitule'] . ' ?',
+                    '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Oui</a>');
         }
+        
     }
 }
 
+/**
+ * Créé un tableau de tout les concours auxquels le membre connecté s'est inscrit
+ * et qui ont déjà eu lieu.
+ * Ce tableau permet au utilisateur d'accéder à la consultation de leurs score.
+ * @staticvar var $query
+ * @param int $id_membre
+ */
 function tableau_concours_passe_inscrits($id_membre) {
     static $query = null;
 
@@ -340,6 +412,12 @@ function tableau_concours_passe_inscrits($id_membre) {
     }
 }
 
+/**
+ * Créé un tableau de tout les concours passé qui ont eu des inscriptions 
+ * et dont le champs score des participant = -1
+ * Ce tableau permet aussi à l'administrateur d'accéder à la page de remise des résultats.
+ * @staticvar var $query
+ */
 function tableau_remise_resultats_concours() {
     static $query = null;
 
@@ -364,6 +442,11 @@ function tableau_remise_resultats_concours() {
     }
 }
 
+/**
+ * Créé un tableau de tout les concours qui ont déjà reçu leurs résultats
+ * et qui peuvent donc désormais être modifié.
+ * @staticvar var $query
+ */
 function tableau_modifier_resultats_concours() {
     static $query = null;
 
@@ -388,6 +471,12 @@ function tableau_modifier_resultats_concours() {
     }
 }
 
+/**
+ * Liste les participant d'un concours pour permettre à l'administrateur
+ * de rendre ou de modifier les résultats.
+ * @staticvar var $query
+ * @param int $id_concours
+ */
 function liste_participant($id_concours) {
     static $query = null;
 
@@ -410,6 +499,11 @@ function liste_participant($id_concours) {
     }
 }
 
+/**
+ * Charge la liste de tout les participant d'un concours ainsi que leur score
+ * @staticvar var $query
+ * @param int $id_concours
+ */
 function consulter_concours($id_concours) {
     static $query = null;
 
@@ -429,6 +523,13 @@ function consulter_concours($id_concours) {
     }
 }
 
+/**
+ * Met à jour le score($score) des membre inscrit($id_membre)
+ * à un concours($id_concours).
+ * @param int $id_membre
+ * @param int $score
+ * @param int $id_concours
+ */
 function mise_a_jour_score($id_membre, $score, $id_concours) {
     $query = connectDB()->prepare("UPDATE t_inscrits SET score=:score WHERE id_membre=:id_membre AND id_concours=:id_concours");
 
@@ -441,6 +542,12 @@ function mise_a_jour_score($id_membre, $score, $id_concours) {
     $query->execute($data);
 }
 
+/**
+ * Vérifie si les résultats d'un concours($id_concours) ont déjà été remis.
+ * @staticvar var $query
+ * @param int $id_concours
+ * @return boolean
+ */
 function resultat_remis($id_concours) {
     static $query = null;
 
