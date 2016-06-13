@@ -4,7 +4,7 @@ require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
 
-if(isset($_SESSION['membre_connecte'])){
+if (isset($_SESSION['membre_connecte'])) {
     header('Location: administration.php');
 }
 
@@ -12,7 +12,7 @@ if (!isset($_SESSION['num_licence'])) {
     $_SESSION['num_licence'] = "";
 }
 
-if(isset($_REQUEST['inscription'])){
+if (isset($_REQUEST['inscription'])) {
     header('Location: creer-modifier-membres.php');
 }
 
@@ -50,83 +50,88 @@ if (isset($_REQUEST['connexion'])) {
 <!DOCTYPE html>
 <html>
     <?php debut_de_page('Connexion - Arc club Jussy') ?>
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
-                            </li>
-                            <li>
-                                <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
-                            </li>
-                            <li>
-                                <?php
-                                if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
-                                ?>
-                            </li>
-                            <li>
-                                <?php
-                                if (isset($_SESSION['membre_connecte'])) {
-                                    if ($_SESSION['membre_connecte']['est_admin'])
-                                        echo '<a href="administration.php">Administration <span class="glyphicon glyphicon-wrench"></span></a>';
-                                }
-                                ?>
-                            </li>
-                            <li class="active">
-                                <?php
-                                if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="deconnexion.php">Deconnexion <span class="glyphicon glyphicon-log-out"></span></a>';
-                                else
-                                    echo '<a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in"></span></a>';
-                                ?>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            <div class="row">
-                <section class="col-sm-12 table-responsive">
-                    <form action="#" method="post">
-                        <legend>Connexion</legend>
-                        <?php
-                        if ($erreur) {
-                            echo '<div class="alert alert-danger" role="alert">
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
+        </li>
+        <li>
+            <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
+        </li>
+        <li>
+            <?php
+            if (isset($_SESSION['membre_connecte']))
+                echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
+            ?>
+        </li>
+        <li>
+            <?php
+            if (isset($_SESSION['membre_connecte'])) {
+                if ($_SESSION['membre_connecte']['est_admin'])
+                    echo '<a href="administration.php">Administration <span class="glyphicon glyphicon-wrench"></span></a>';
+            }
+            ?>
+        </li>
+        <li class="active">
+            <?php
+            if (isset($_SESSION['membre_connecte']))
+                echo '<a href="deconnexion.php">Deconnexion <span class="glyphicon glyphicon-log-out"></span></a>';
+            else
+                echo '<a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in"></span></a>';
+            ?>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="aide.php"><b>?</b></a>
+        </li>
+    </ul>
+</div>
+</nav>
+</div>
+<div class="row">
+    <section class="col-sm-12 table-responsive">
+        <form action="#" method="post">
+            <legend>Connexion</legend>
+            <?php
+            if ($erreur) {
+                echo '<div class="alert alert-danger" role="alert">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         <span class="sr-only">Error:</span>
                                         Les informations qui ont été saisies sont incorrects.
                                     </div>';
-                        } elseif ($erreur_valide) {
-                            echo '<div class="alert alert-danger" role="alert">
+            } elseif ($erreur_valide) {
+                echo '<div class="alert alert-danger" role="alert">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         <span class="sr-only">Error:</span>
                                         Votre compte n\'a pas encore été validé par l\'administrateur.
                                     </div>';
-                        }
-                        ?>
+            }
+            ?>
 
-                        <label for="num_licence">Numéro de licence : </label> 
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="num_licence" name="num_licence" value="<?php echo $_SESSION['num_licence'] ?>" placeholder="Format : 5 chiffres">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-                        </div>
-
-                        <label for="mdp">Mot de passe : </label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="mdp" name="mdp">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        </div>
-                        <br>
-                        <input type="submit" class="btn btn-default" name="connexion" value="Connexion">
-                        <input type="submit" class="btn btn-default" name="inscription" value="Inscription">
-
-                        <hr>
-                    </form>
-                </section>
+            <label for="num_licence">Numéro de licence : </label> 
+            <div class="input-group">
+                <input type="text" class="form-control" id="num_licence" name="num_licence" value="<?php echo $_SESSION['num_licence'] ?>" placeholder="Format : 5 chiffres">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
             </div>
-            <div class="row">
-                <footer class="col-sm-12">
-                    &copy; Thomas Carreira
-                </footer>
+
+            <label for="mdp">Mot de passe : </label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="mdp" name="mdp">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
             </div>
-        </div>
-    </body>
+            <br>
+            <input type="submit" class="btn btn-default" name="connexion" value="Connexion">
+            <input type="submit" class="btn btn-default" name="inscription" value="Inscription">
+
+            <hr>
+        </form>
+    </section>
+</div>
+<div class="row">
+    <footer class="col-sm-12">
+        &copy; Thomas Carreira
+    </footer>
+</div>
+</div>
+</body>
 </html>

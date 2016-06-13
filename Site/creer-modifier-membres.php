@@ -42,100 +42,105 @@ if (isset($_REQUEST['annuler'])) {
 <!DOCTYPE html>
 <html>
     <?php debut_de_page(isset($_REQUEST['id_membre_modification']) ? "Modifier un membre - Arc club Jussy" : "Créer un membre - Arc club Jussy") ?>
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
-                            </li>
-                            <li>
-                                <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
-                            </li>
-                            <li>
-                                <?php
-                                if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
-                                ?>
-                            </li>
-                            <li>
-                                <?php
-                                if (isset($_SESSION['membre_connecte'])) {
-                                    if ($_SESSION['membre_connecte']['est_admin'])
-                                        echo '<a href="administration.php">Administration <span class="glyphicon glyphicon-wrench"></span></a>';
-                                }
-                                ?>
-                            </li>
-                            <li>
-                                <?php
-                                if (isset($_SESSION['membre_connecte']))
-                                    echo '<a href="deconnexion.php">Deconnexion <span class="glyphicon glyphicon-log-out"></span></a>';
-                                else
-                                    echo '<a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in"></span></a>';
-                                ?>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            <div class="row">
-                <section class="col-sm-12 table-responsive">
-                    <form action="#" method="post">
-                        <legend><?php echo isset($_REQUEST['id_membre_modification']) ? "Modification" : "Création"; ?>  d'un compte membre : </legend>
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
+        </li>
+        <li>
+            <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
+        </li>
+        <li>
+            <?php
+            if (isset($_SESSION['membre_connecte']))
+                echo '<a href="mon-compte.php">Mon compte <span class="glyphicon glyphicon-user"></span></a>';
+            ?>
+        </li>
+        <li>
+            <?php
+            if (isset($_SESSION['membre_connecte'])) {
+                if ($_SESSION['membre_connecte']['est_admin'])
+                    echo '<a href="administration.php">Administration <span class="glyphicon glyphicon-wrench"></span></a>';
+            }
+            ?>
+        </li>
+        <li>
+            <?php
+            if (isset($_SESSION['membre_connecte']))
+                echo '<a href="deconnexion.php">Deconnexion <span class="glyphicon glyphicon-log-out"></span></a>';
+            else
+                echo '<a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in"></span></a>';
+            ?>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="aide.php"><b>?</b></a>
+        </li>
+    </ul>
+</div>
+</nav>
+</div>
+<div class="row">
+    <section class="col-sm-12 table-responsive">
+        <form action="#" method="post">
+            <legend><?php echo isset($_REQUEST['id_membre_modification']) ? "Modification" : "Création"; ?>  d'un compte membre : </legend>
 
-                        <?php
-                        if ($message_erreur != "") {
-                            echo '<div class="alert alert-danger" role="alert">
+            <?php
+            if ($message_erreur != "") {
+                echo '<div class="alert alert-danger" role="alert">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         <span class="sr-only">Error:</span>' . $message_erreur . '</div>';
-                        }
-                        ?>
+            }
+            ?>
 
-                        <label for="num_licence">Numéro de licence : </label>
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="num_licence" name="num_licence" value="<?php echo $membre['num_licence'] ?>" placeholder="Format : 5 chiffres">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
-                        </div>
-
-                        <label for="nom">Nom : </label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="nom" name="nom" pattern="[a-zA-Zàäéèöü]+" value="<?php echo $membre['nom'] ?>">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                        </div>
-
-                        <label for="prenom">Prénom : </label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="prenom" name="prenom" pattern="[a-zA-Zàäéèöü]+" value="<?php echo $membre['prenom'] ?>">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                        </div>
-
-                        <label for="date_naissance">Date de naissance : </label>
-                        <div class="input-group">
-                            <input type="date" class="form-control" id="date_concours" name="date_naissance" value="<?php echo $membre['date_naissance'] ?>">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-
-                        <label for="mdp">Mot de passe : </label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="mdp" name="mdp">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        </div>
-
-                        <label for="mdp_verif">Vérification du mot de passe : </label>
-                        <div class="input-group">
-                            <input type="password" class="form-control" id="mdp_verif" name="mdp_verif">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                        </div>
-
-                        <br>
-                        <input type="submit" class="btn btn-default" name="valider" value="<?php echo isset($_REQUEST['id_membre_modification']) ? "Modifier" : "S'inscrire"; ?>">
-                        <input type="submit" class="btn btn-default" name="annuler" value="Annuler">
-
-                    </form>
-                </section>
+            <label for="num_licence">Numéro de licence : </label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="num_licence" name="num_licence" value="<?php echo $membre['num_licence'] ?>" placeholder="Format : 5 chiffres">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
             </div>
-            <div class="row">
-                <footer class="col-sm-12">
-                    &copy; Thomas Carreira
-                </footer>
+
+            <label for="nom">Nom : </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="nom" name="nom" pattern="[a-zA-Zàäéèöü]+" value="<?php echo $membre['nom'] ?>">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
             </div>
-        </div>
-    </body>
+
+            <label for="prenom">Prénom : </label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="prenom" name="prenom" pattern="[a-zA-Zàäéèöü]+" value="<?php echo $membre['prenom'] ?>">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            </div>
+
+            <label for="date_naissance">Date de naissance : </label>
+            <div class="input-group">
+                <input type="date" class="form-control" id="date_concours" name="date_naissance" value="<?php echo $membre['date_naissance'] ?>">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+
+            <label for="mdp">Mot de passe : </label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="mdp" name="mdp">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+            </div>
+
+            <label for="mdp_verif">Vérification du mot de passe : </label>
+            <div class="input-group">
+                <input type="password" class="form-control" id="mdp_verif" name="mdp_verif">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+            </div>
+
+            <br>
+            <input type="submit" class="btn btn-default" name="valider" value="<?php echo isset($_REQUEST['id_membre_modification']) ? "Modifier" : "S'inscrire"; ?>">
+            <input type="submit" class="btn btn-default" name="annuler" value="Annuler">
+
+        </form>
+    </section>
+</div>
+<div class="row">
+    <footer class="col-sm-12">
+        &copy; Thomas Carreira
+    </footer>
+</div>
+</div>
+</body>
 </html>

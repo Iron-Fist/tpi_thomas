@@ -8,7 +8,7 @@ require './librairie/librairie_membres.php';
 <html>
     <?php debut_de_page('Arc club Jussy') ?>
     <ul class="nav navbar-nav">
-        <li class="active">
+        <li>
             <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
         </li>
         <li>
@@ -35,6 +35,11 @@ require './librairie/librairie_membres.php';
             else
                 echo '<a href="connexion.php">Connexion <span class="glyphicon glyphicon-log-in"></span></a>';
             ?>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li class="active">
+            <a href="aide.php"><b>?</b></a>
         </li>
     </ul>
 </div>

@@ -34,7 +34,7 @@ function creer_modale($id_modale, $titre, $contenu, $bouton_oui) {
             <div class="modal-content">
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-warning-sign"></span> ' . $titre . '</h4>
+            <h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-alert"></span> ' . $titre . '</h4>
             </div>
             <div class="modal-body">' . $contenu . '</div>
             <div class="modal-footer">' . $bouton_oui .'<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
@@ -53,7 +53,7 @@ function debut_de_page($title) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>' .$title . '</title>
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-        <link href="bootstrap/css/tuto.css" rel="stylesheet">
+        <link href="bootstrap/css/style.css" rel="stylesheet">
         <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
         <script src="./bootstrap/js/bootstrap.min.js"></script>
     </head>

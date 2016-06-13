@@ -86,6 +86,11 @@ if (isset($_REQUEST['annuler'])) {
                                 ?>
                             </li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="aide.php"><b>?</b></a>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             </div>
