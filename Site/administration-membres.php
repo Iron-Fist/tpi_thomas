@@ -1,4 +1,16 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : administration-membres.php
+/* Description  : Page permettant à l'administrateur de valider ou de rejeter
+ *                les nouveaux membres ainsi que de modifier, supprimer et 
+ *                consuler la totalité des concours auxquels un utilisateur
+ *                c'est inscrit.
+ */
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
@@ -105,7 +117,7 @@ if (isset($_REQUEST['administration_concours'])) {
                                 Date de naissance
                             </th>
                             <th>
-                                Modification
+                                Action
                             </th>
                         </tr>
                     </thead>

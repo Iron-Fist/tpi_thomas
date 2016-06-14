@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : librairie_concours.php
+/* Description  : Page regroupant toutes les fonctions liées à la table
+/*                t_concours ainsi que t_inscrits.
+/******************************************************************************/
+
 /**
  * Création d'un concours
  * @staticvar var $query
@@ -266,7 +275,7 @@ function tableau_futur_concours() {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` > ?");
+        $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` > ? ORDER BY date_concours ASC");
     }
     $query->execute([date('Y-m-d')]);
 
@@ -282,11 +291,10 @@ function tableau_futur_concours() {
             echo '<td>' . ($data['nb_places'] - nb_inscrits($data['id_concours'])) . " / " . $data['nb_places'] . '</td>';
             echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
-            echo '<td><a href="creer-modifier-concours.php?id_concours_modification=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-wrench"></span></a>'
+            echo '<td><a href="creer-modifier-concours.php?id_concours_modification=' . $data["id_concours"] . '"><span class="glyphicon glyphicon-pencil"></span></a>'
             . " " . '<a href="#" data-toggle="modal" data-target="#' . $data['id_concours'] . '"><span class="glyphicon glyphicon-trash"></span></a>';
             echo '</tr>';
-            creer_modale($data['id_concours'], 'Suppression de concours', 'Voulez-vous vraiment supprimer ' . $data['intitule'] . ' ?',
-                    '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_suppression=' . $data["id_concours"] . '">Oui</a>');
+            creer_modale($data['id_concours'], 'Suppression de concours', 'Voulez-vous vraiment supprimer ' . $data['intitule'] . ' ?', '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_suppression=' . $data["id_concours"] . '">Oui</a>');
         }
     }
 }
@@ -302,7 +310,7 @@ function tableau_futur_concours_inscription($id_membre) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` >= ?");
+        $query = connectDB()->prepare("SELECT * FROM `t_concours` WHERE `date_concours` >= ? ORDER BY date_concours ASC");
     }
     $query->execute([date('Y-m-d')]);
 
@@ -332,9 +340,8 @@ function tableau_futur_concours_inscription($id_membre) {
                 }
             }
             echo '</tr>';
-            
-            creer_modale($data['id_concours'], 'Désinscription d\'un concours', 'Voulez-vous vraiment vous désinscrire du conours ' . $data['intitule'] . ' ?',
-                    '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Oui</a>');
+
+            creer_modale($data['id_concours'], 'Désinscription d\'un concours', 'Voulez-vous vraiment vous désinscrire du conours ' . $data['intitule'] . ' ?', '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Oui</a>');
         }
     }
 }
@@ -349,7 +356,7 @@ function tableau_futur_concours_inscrits($id_membre) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT c.id_concours, intitule, lieu, nb_places, date_concours, date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours >= ?");
+        $query = connectDB()->prepare("SELECT c.id_concours, intitule, lieu, nb_places, date_concours, date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours >= ? ORDER BY date_concours ASC");
     }
 
     $query->execute([$id_membre, date('Y-m-d')]);
@@ -369,10 +376,8 @@ function tableau_futur_concours_inscrits($id_membre) {
             echo '<td>' . date_format(date_create($data['date_limite_inscription']), "d M Y") . '</td>';
             echo '<td><a href="#" data-toggle="modal" data-target="#' . $data['id_concours'] . '">Désinscription</a></td>';
             echo '</tr>';
-            creer_modale($data['id_concours'], 'Désinscription d\'un concours', 'Voulez-vous vraiment vous désinscrire du conours ' . $data['intitule'] . ' ?',
-                    '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Oui</a>');
+            creer_modale($data['id_concours'], 'Désinscription d\'un concours', 'Voulez-vous vraiment vous désinscrire du conours ' . $data['intitule'] . ' ?', '<a type="button" class="btn btn-primary" href="suppression-validation-inscription.php?id_concours_desinscription=' . $data["id_concours"] . '">Oui</a>');
         }
-        
     }
 }
 
@@ -387,7 +392,7 @@ function tableau_concours_passe_inscrits($id_membre) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT c.id_concours, c.intitule, c.lieu, c.nb_places, c.date_concours, c.date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND c.date_concours <= ?");
+        $query = connectDB()->prepare("SELECT c.id_concours, intitule, lieu, nb_places, date_concours, date_limite_inscription FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? AND date_concours <= ? ORDER BY date_concours DESC");
     }
 
     $query->execute([$id_membre, date('Y-m-d')]);
@@ -422,7 +427,7 @@ function tableau_remise_resultats_concours() {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score = -1");
+        $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score = -1 ORDER BY date_concours ASC");
     }
     $query->execute([date('Y-m-d')]);
 
@@ -451,7 +456,7 @@ function tableau_modifier_resultats_concours() {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score <> -1");
+        $query = connectDB()->prepare("SELECT DISTINCT intitule, lieu, date_concours, c.id_concours FROM t_concours c, t_inscrits i WHERE c.id_concours = i.id_concours AND date_concours < ? AND score <> -1 ORDER BY date_concours DESC");
     }
     $query->execute([date('Y-m-d')]);
 
@@ -472,6 +477,40 @@ function tableau_modifier_resultats_concours() {
 }
 
 /**
+ * Créer un tableau de tout les concours auxquels un membre a participé
+ * @staticvar var $query
+ * @param int $id_membre
+ */
+function tableau_tout_concours_membre_participe($id_membre) {
+    static $query = null;
+
+    if ($query == null) {
+        $query = connectDB()->prepare("SELECT c.id_concours, intitule, lieu, date_concours, score FROM t_concours as c, t_inscrits as i WHERE c.id_concours = i.id_concours AND i.id_membre = ? ORDER BY date_concours DESC");
+    }
+
+    $query->execute([$id_membre]);
+
+    if ($query->rowCount() == 0) {
+        echo '<tr>';
+        echo '<td colspan="6" class="text-center">Le membre ne c\'est inscrit à aucun concours.</td>';
+        echo '</tr>';
+    } else {
+        while (($data = $query->fetch(PDO::FETCH_ASSOC)) !== false) {
+
+            echo '<tr>';
+            echo '<td>' . $data['intitule'] . '</td>';
+            echo '<td>' . $data['lieu'] . '</td>';
+            echo '<td>' . date_format(date_create($data['date_concours']), "d M Y") . '</td>';
+            if ($data['score'] == -1)
+                echo '<td>Pas encore remis</td>';
+            else
+                echo '<td>' . $data['score'] . '</td>';
+            echo '</tr>';
+        }
+    }
+}
+
+/**
  * Liste les participant d'un concours pour permettre à l'administrateur
  * de rendre ou de modifier les résultats.
  * @staticvar var $query
@@ -481,7 +520,7 @@ function liste_participant($id_concours) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT i.id_membre, score, num_licence, nom, prenom FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ?");
+        $query = connectDB()->prepare("SELECT i.id_membre, score, num_licence, nom, prenom, date_naissance FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ? ORDER BY date_naissance DESC");
     }
 
     $query->execute([$id_concours]);
@@ -508,7 +547,7 @@ function consulter_concours($id_concours) {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT i.id_membre, score, num_licence, nom, prenom FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ?");
+        $query = connectDB()->prepare("SELECT i.id_membre, score, num_licence, nom, prenom, date_naissance FROM t_inscrits i, t_membres m WHERE i.id_membre = m.id_membre AND id_concours = ? ORDER BY score DESC");
     }
 
     $query->execute([$id_concours]);

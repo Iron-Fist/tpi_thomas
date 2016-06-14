@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : mon-compte.php
+/* Description  : Page propre à chaque membre qui lui permet de gérer
+/*                ses inscription et de consulter ses concours.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';

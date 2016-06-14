@@ -1,4 +1,14 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : administration.php
+/* Description  : Page permettant à l'administrateur de modifier, supprimer 
+/*                les futurs concours et de redigier, modifier 
+/*                les anciens concours.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';

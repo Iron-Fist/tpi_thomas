@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : index.php
+/* Description  : Page d'accueil proposant une petite déscription du site 
+/*                ainsi que la liste de tout les futurs concours.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';

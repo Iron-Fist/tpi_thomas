@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : creer-modifier-concours.php
+/* Description  : Formulaire permettant à l'administrateur de creer ou de
+ *                modifier un concours.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';

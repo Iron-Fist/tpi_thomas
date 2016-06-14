@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : connexion.php
+/* Description  : Formulaire de connexion avec la possibilité d'accéder 
+/*                à la page de création de compte.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';

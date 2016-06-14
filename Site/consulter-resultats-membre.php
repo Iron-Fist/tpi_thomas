@@ -3,24 +3,30 @@
 /* Auteur       : Thomas Carreira
 /* Date         : 15.06.2016
 /* Version      : 1.0
-/* Page         : a-propos.php
-/* Description  : Page regroupant quelque information relative au site telle que
-/*                le lieu et les contacts des personnes importantes du club.
+/* Page         : consulter-resultats-membre.php
+/* Description  : Page permettant à l'administrateur de consulter tout 
+/*                les concours auxqules un utilisateur à pu s'inscrire
+/*                ainsi que les résultats qu'il aurait pu obtenir.
 /******************************************************************************/
 
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
 require './librairie/librairie_membres.php';
+
+if (!isset($_REQUEST['id_membre']))
+    header('Location: administration-membres.php');
+else
+    $membre = charger_donnees_membre($_REQUEST['id_membre']);
 ?>
 <!DOCTYPE html>
 <html>
-    <?php debut_de_page('A propos - Arc club Jussy') ?>
+    <?php debut_de_page('Consulter résultat d\'un membre - Arc club Jussy') ?>
     <ul class="nav navbar-nav">
         <li>
             <a href="index.php">Accueil <span class="glyphicon glyphicon-home"></span></a>
         </li>
-        <li class="active">
+        <li>
             <a href="a-propos.php">A propos <span class="glyphicon glyphicon-book"></span></a>
         </li>
         <li>
@@ -56,49 +62,32 @@ require './librairie/librairie_membres.php';
 </div>
 <div class="row">
     <section class="col-sm-12 table-responsive">
-        <legend>A propos du club :</legend>
-        Créé en 1999 à JUSSY/Genève (CH).<br>
-        Compte plus de 135 membres actifs et passifs.<br>
-        Ouvert aux archers confirmés et aux débutants.<br>
-        Initiation pour adultes et enfants dès 8 ans.<br>
-        Matériel d'initiation à disposition.<br>
-        Encadrement par des entraineurs diplômés Jeunesse+Sport et des moniteurs confirmés.<br>
-        Entraînement à la compétition.<br>
-        Participation à des compétitions nationales et internationales.<br>
-        Nombreux titres nationaux.<br>
-        Organisateur de concours nationaux et internationaux.<br>
-        Terrain et salle de tir à Jussy.<br>
-        Membre ADAGE (Association Des Archers Genevois)<br>
-        Membre SwissArchery (Swiss Archery Association)
+        <legend>Liste des concours du membre <?php echo $membre['prenom'] . " " . $membre['nom'] ?> :</legend>
 
-        <legend>Lieu :</legend>
-        23, route de Juvigny 1254 Jussy
-
-        <legend>Contact :</legend>
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-condensed">
-                <tr>
-                    <th>Nom / prénom</th>
-                    <th>E-mail</th>
-                    <th>Fonction</th>
-                </tr>
-                <tr>
-                    <td>DE GIULI Jean-Noël</td>
-                    <td>president@arc-club-jussy.ch</td>
-                    <td>Président</td>
-                </tr>
-                <tr>
-                    <td>BOVISI Marco</td>
-                    <td>entraineur@arc-club-jussy.ch</td>
-                    <td>Directeur sportif</td>
-                </tr>
-                <tr>
-                    <td>RUIZ Olivier</td>
-                    <td>logistique@arc-club-jussy.ch</td>
-                    <td>Directeur logistique</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>
+                            Intitule
+                        </th>
+                        <th>
+                            Lieu
+                        </th>
+                        <th>
+                            Date du concours
+                        </th>
+                        <th>
+                            Score obtenu
+                        </th>
+                    <tr>
+                </thead>
+                <tbody>
+                    <?php echo tableau_tout_concours_membre_participe($_REQUEST['id_membre']) ?>
+                </tbody>
             </table>
         </div>
+        <a type="button" class="btn btn-default" href="administration-membres.php">Retour</a>
     </section>
 </div>
 <div class="row">

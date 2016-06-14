@@ -1,6 +1,11 @@
 <?php
-
-require_once('./librairie/errors.php');
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : librairie_membres.php
+/* Description  : Page regroupant toutes les fonctions liées à la table t_membres.
+/******************************************************************************/
 
 /**
  * Verifie si les données saisie correspondent à celle 
@@ -166,7 +171,7 @@ function tableau_membre_non_valide() {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT * FROM `t_membres` WHERE `est_valide` = 0");
+        $query = connectDB()->prepare("SELECT * FROM `t_membres` WHERE `est_valide` = 0 ORDER BY num_licence ASC");
     }
     $query->execute();
 
@@ -203,7 +208,7 @@ function tableau_membre_valide() {
     static $query = null;
 
     if ($query == null) {
-        $query = connectDB()->prepare("SELECT * FROM `t_membres` WHERE `est_valide` = 1");
+        $query = connectDB()->prepare("SELECT * FROM t_membres WHERE est_valide = 1 ORDER BY num_licence ASC");
     }
     $query->execute();
 
@@ -213,7 +218,8 @@ function tableau_membre_valide() {
         echo '<td>' . $data['nom'] . '</td>';
         echo '<td>' . $data['prenom'] . '</td>';
         echo '<td>' . date_format(date_create($data['date_naissance']), "d/m/Y") . '</td>';
-        echo '<td><a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-wrench"></span></a>';
+        echo '<td><a href="consulter-resultats-membre.php?id_membre=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-list-alt"></span></a>' . " ";
+        echo '<a href="creer-modifier-membres.php?id_membre_modification=' . $data["id_membre"] . '"><span class="glyphicon glyphicon-pencil"></span></a>';
         if (est_inscrit_concours($data['id_membre']))
             echo '</td>';
         else

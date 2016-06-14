@@ -1,4 +1,12 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : librairie.php
+/* Description  : Page regroupant toutes les fonctions générales.
+/******************************************************************************/
+
 /**
  * Connexion à la base de donnée db_acj.
  * @staticvar type $maDB
@@ -54,7 +62,8 @@ function debut_de_page($title) {
         <title>' .$title . '</title>
         <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
         <link href="bootstrap/css/style.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+        <link rel="icon" type="image/png" href="./image/acj_logo.png">
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
         <script src="./bootstrap/js/bootstrap.min.js"></script>
     </head>
     <body>

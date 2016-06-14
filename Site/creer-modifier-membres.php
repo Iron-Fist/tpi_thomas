@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : creer-modifier-membres.php
+/* Description  : Formulaire qui permet au membre de se créer un compte ou à 
+/*                l'administrateur de modifier un compte membre.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';

@@ -1,4 +1,13 @@
 <?php
+/******************************************************************************/
+/* Auteur       : Thomas Carreira
+/* Date         : 15.06.2016
+/* Version      : 1.0
+/* Page         : aide.php
+/* Description  : Page regroupant la documentation utilisateur pour 
+/*                faciliter la prise en main du site par un nouvel utilisateur.
+/******************************************************************************/
+
 session_start();
 require './librairie/librairie.php';
 require './librairie/librairie_concours.php';
@@ -53,7 +62,7 @@ require './librairie/librairie_membres.php';
         <p>
             Pour vous créer un compte, commencez par vous rendre sur la page de <a href="connexion.php"><b>Connexion <span class="glyphicon glyphicon-log-in"></span></b></a><br>
             Puis cliquez sur le bouton <a href="creer-modifier-membres.php"><b>Inscription</b></a> pour vous rendre sur la page d'inscription.<br>
-            Une fois le formulaire d'inscription remplie cliqué sur le bonton <b>S'inscrire</b>.<br>
+            Une fois le formulaire d'inscription remplie cliqué sur le bouton <b>S'inscrire</b>.<br>
         </p>
         <p>
             Maintenant, vous n'avez plus cas attendre que l'administrateur valide votre compte.
@@ -61,8 +70,8 @@ require './librairie/librairie_membres.php';
 
         <h4>Comment ce connecté :</h4>
         <p>
-            Pour vous connecter il vous suffie de vous rendre sur la page de <a href="connexion.php"><b>Connexion <span class="glyphicon glyphicon-log-in"></span></b></a><br>
-            et de rentrer vos information personnel telle que votre <b>Numéro de licence</b> et votre <b>Mot de passe</b>.<br>
+            Pour vous connecter il vous suffit de vous rendre sur la page de <a href="connexion.php"><b>Connexion <span class="glyphicon glyphicon-log-in"></span></b></a><br>
+            et de rentrer vos informations personnelles telles que votre <b>Numéro de licence</b> et votre <b>Mot de passe</b>.<br>
             Si votre compte n'a pas encore été validé vous serez tenu au courant.
         </p>
 
@@ -105,7 +114,7 @@ require './librairie/librairie_membres.php';
         </ol>
 
 
-        <legend>Explication des fonctionnalités diponible uniquement pour l'administrateur</legend>
+        <legend>Explication des fonctionnalités disponible uniquement pour l'administrateur</legend>
         <p>
             Pour cette serie d'explication sur les fonctionnalités diponible uniquement pour l'administrateur,<br>
             Nous allons partir du principe que vous vous êtes déjà connecté via la page <a href="connexion.php"><b>Connexion <span class="glyphicon glyphicon-log-in"></span></b></a><br>
