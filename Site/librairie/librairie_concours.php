@@ -8,6 +8,33 @@
 /*                t_concours ainsi que t_inscrits.
 /******************************************************************************/
 
+/*******************************************************************************
+ * Liste des fonctions de cette page :
+ * 1)  creer_concours
+ * 2)  supprimer_concours
+ * 3)  desinscrire_membres_du_concours_supprimer
+ * 4)  inscription_concours
+ * 5)  desinscription_concours
+ * 6)  charger_nouveau_concours
+ * 7)  charger_donnees_concours
+ * 8)  concours_existe
+ * 9)  date_concours_valide
+ * 10) est_inscrit
+ * 11) nb_inscrits
+ * 12) validation_creation_modification_concours
+ * 13) tableau_futur_concours
+ * 14) tableau_futur_concours_inscription
+ * 15) tableau_futur_concours_inscrits
+ * 16) tableau_concours_passe_inscrits
+ * 17) tableau_remise_resultats_concours
+ * 18) tableau_modifier_resultats_concours
+ * 19) tableau_tout_concours_membre_participe
+ * 20) liste_participant
+ * 21) consulter_concours
+ * 22) mise_a_jour_score
+ * 23) resultat_remis
+ ******************************************************************************/
+
 /**
  * Création d'un concours
  * @staticvar var $query
@@ -477,7 +504,7 @@ function tableau_modifier_resultats_concours() {
 }
 
 /**
- * Créer un tableau de tout les concours auxquels un membre a participé
+ * Créer un tableau de tous les concours auxquels un membre a participé
  * @staticvar var $query
  * @param int $id_membre
  */

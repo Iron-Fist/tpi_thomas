@@ -7,6 +7,14 @@
 /* Description  : Page regroupant toutes les fonctions générales.
 /******************************************************************************/
 
+/*******************************************************************************
+ * Liste des fonctions de cette page :
+ * 1) connectDB
+ * 2) creer_modale
+ * 3) debut_de_page 
+ ******************************************************************************/
+
+
 /**
  * Connexion à la base de donnée db_acj.
  * @staticvar type $maDB

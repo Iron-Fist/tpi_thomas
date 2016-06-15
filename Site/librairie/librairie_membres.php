@@ -7,6 +7,25 @@
 /* Description  : Page regroupant toutes les fonctions liées à la table t_membres.
 /******************************************************************************/
 
+/*******************************************************************************
+ * Liste des fonctions de cette page :
+ * 1)  connexion
+ * 2)  num_licence_existe
+ * 3)  creer_membre
+ * 4)  modifier_membre
+ * 5)  modifier_membre_sans_mdp
+ * 6)  charger_nouveau_membre
+ * 7)  charger_donnees_membre
+ * 8)  date_naissance_valide
+ * 9)  tableau_membre_non_valide
+ * 10) tableau_membre_valide
+ * 11) est_inscrit_concours
+ * 12) validation_membre
+ * 13) supprimer_membre
+ * 14) num_licence_valide
+ * 15) validation_creation_modification_membre
+ ******************************************************************************/
+
 /**
  * Verifie si les données saisie correspondent à celle 
  * d'un des utilisateurs de la base de donnée

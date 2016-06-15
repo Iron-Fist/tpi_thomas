@@ -60,7 +60,7 @@ require './librairie/librairie_membres.php';
         <p>
             Bienvenue sur le site officiel de l'arc club Jussy.<br>
             Ce site va vous permettre de vous tenir facilement au courant sur les prochains concours à venir<br>
-            et vous pourrez également vous y inscrire.
+            et pourrez également vous y inscrire.
         </p>
 
         <legend>Liste des futurs concours :</legend>
